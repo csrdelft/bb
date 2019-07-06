@@ -1,0 +1,23 @@
+<?php
+
+namespace CsrDelft\bb\tag;
+
+use CsrDelft\bb\BbTag;
+
+/**
+ * Superscript
+ *
+ * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
+ * @since 27/03/2019
+ * @example [sup]Superscript[/sup]
+ */
+class BbSuperscript extends BbTag {
+
+	public function getTagName() {
+		return 'sup';
+	}
+
+	public function parse($arguments = []) {
+		return '<sup class="bb-tag-sup">' . $this->getContent(['sub', 'sup']) . '</sup>';
+	}
+}

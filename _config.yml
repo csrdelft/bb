@@ -1,0 +1,8 @@
+theme: jekyll-theme-cayman
+highlighter: rouge
+title: bb
+
+# About/contact
+author:
+  name: PubCie der C.S.R. Delft
+  url: https://csrdelft.nl

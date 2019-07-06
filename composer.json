@@ -1,0 +1,19 @@
+{
+  "name": "csrdelft/bb",
+  "description": "C.S.R. BB Parser",
+  "type": "library",
+  "homepage": "https://csrdelft.github.io/bb",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "PubCie der C.S.R. Delft",
+      "email": "pubcie@csrdelft.nl"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.33"
+  },
+  "autoload": {
+    "CsrDelft\\bb\\": "src/"
+  }
+}
