@@ -14,6 +14,8 @@
     "php": ">=7.0.33"
   },
   "autoload": {
-    "CsrDelft\\bb\\": "src/"
+    "psr-4": {
+      "CsrDelft\\bb\\": "src/"
+    }
   }
 }
