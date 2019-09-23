@@ -14,11 +14,16 @@ class BbLeet extends BbTag {
 		return '1337';
 	}
 
-	public function parse($arguments = []) {
-		$html = $this->getContent();
+	public function render() {
+		$html = $this->content;
 		$html = str_replace('er ', '0r ', $html);
 		$html = str_replace('you', 'j00', $html);
 		$html = str_replace('elite', '1337', $html);
 		return strtr($html, "abelostABELOST", "48310574831057");
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent();
+    }
 }

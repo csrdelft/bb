@@ -18,7 +18,12 @@ class BbTableRow extends BbTag {
 		return 'tr';
 	}
 
-	public function parse($arguments = []) {
-		return '<tr class="bb-tag-tr">' . $this->getContent(['br']) . '</tr>';
+	public function render($arguments = []) {
+		return '<tr class="bb-tag-tr">' . $this->content . '</tr>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['br']);
+    }
 }

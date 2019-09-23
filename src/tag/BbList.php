@@ -17,15 +17,21 @@ use CsrDelft\bb\BbTag;
  */
 class BbList extends BbTag {
 
-	public function getTagName() {
+    private $type;
+
+    public function getTagName() {
 		return ['list', 'ulist'];
 	}
 
-	public function parse($arguments = []) {
-		if (!isset($arguments['list'])) {
-			return '<ul class="bb-tag-list">' . $this->getContent(['br']) . '</ul>';
-		} else {
-			return '<ol class="bb-tag-list" type="' . $arguments['list'] . '">' . $this->getContent(['br']) . '</ol>';
-		}
+	public function render() {
+        $typeAttribute = $this->type == null ?? "type=\"$this->type\"";
+        return "<ol class=\"bb-tag-list\" $typeAttribute>" . $this->content . '</ol>';
 	}
+
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['br']);
+        $this->type = $arguments['list'] ?? null;
+    }
 }

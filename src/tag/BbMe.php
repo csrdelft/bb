@@ -16,17 +16,25 @@ use CsrDelft\bb\BbTag;
  */
 class BbMe extends BbTag {
 
-	public function getTagName() {
+    private $name;
+
+    public function getTagName() {
 		return 'me';
 	}
 
-	public function parse($arguments = []) {
-		$content = $this->parser->parseArray(['[br]']);
-		array_unshift($this->parser->parseArray, '[br]');
-		if (isset($arguments['me'])) {
-			return '<span style="color:red;">* ' . $arguments['me'] . $content . '</span>';
+	public function render($arguments = []) {
+		if ($this->name != null) {
+			return '<span style="color:red;">* ' . $this->name . $this->content . '</span>';
 		} else {
-			return '<span style="color:red;">/me' . $content . '</span>';
+			return '<span style="color:red;">/me' . $this->content . '</span>';
 		}
 	}
+
+    public function parse($arguments = [])
+    {
+
+        $this->content = $this->parser->parseArray(['[br]']);
+        array_unshift($this->parser->parseArray, '[br]');
+        $this->name = $arguments['me'] ?? null;
+    }
 }

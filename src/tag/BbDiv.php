@@ -18,40 +18,52 @@ use CsrDelft\bb\BbTag;
  */
 class BbDiv extends BbTag {
 
-	public function getTagName() {
+    /**
+     * @var string
+     */
+    private $class;
+    /**
+     * @var string
+     */
+    private $style;
+
+    public function getTagName() {
 		return 'div';
 	}
 
 	public function parse($arguments = []) {
-		$content = $this->getContent();
-		$class = '';
-		if (isset($arguments['class'])) {
-			$class .= htmlspecialchars($arguments['class']);
-		}
-		if (isset($arguments['clear'])) {
-			$class .= ' clear';
-		} elseif (isset($arguments['float']) && $arguments['float'] == 'left') {
-			$class .= ' float-left';
-		} elseif (isset($arguments['float']) && $arguments['float'] == 'right') {
-			$class .= ' float-right';
-		}
-		if ($class != '') {
-			$class = ' class="bb-tag-div ' . $class . '"';
-		}
-		$style = '';
-		if (isset($arguments['w'])) {
-			$style .= 'width: ' . ((int)$arguments['w']) . 'px; ';
-		}
-		if (isset($arguments['h'])) {
-			$style .= 'height: ' . ((int)$arguments['h']) . 'px; ';
-		}
-		if ($style != '') {
-			$style = ' style="' . $style . '" ';
-		}
-		$title = '';
-		if (isset($arguments['title'])) {
-			$title = ' title="' . htmlspecialchars(trim(str_replace('_', ' ', $arguments['title']))) . '" ';
-		}
-		return '<div' . $class . $style . $title . '>' . $content . '</div>';
+        $this->readContent();
+        $this->class = '';
+        if (isset($arguments['class'])) {
+            $this->class .= htmlspecialchars($arguments['class']);
+        }
+        if (isset($arguments['clear'])) {
+            $this->class .= ' clear';
+        } elseif (isset($arguments['float']) && $arguments['float'] == 'left') {
+            $this->class .= ' float-left';
+        } elseif (isset($arguments['float']) && $arguments['float'] == 'right') {
+            $this->class .= ' float-right';
+        }
+        if ($this->class != '') {
+            $this->class = ' class="bb-tag-div ' . $this->class . '"';
+        }
+        $this->style = '';
+        if (isset($arguments['w'])) {
+            $this->style .= 'width: ' . ((int)$arguments['w']) . 'px; ';
+        }
+        if (isset($arguments['h'])) {
+            $this->style .= 'height: ' . ((int)$arguments['h']) . 'px; ';
+        }
+        if ($this->style != '') {
+            $this->style = ' style="' . $this->style . '" ';
+        }
+        $this->title = '';
+        if (isset($arguments['title'])) {
+            $this->title = ' title="' . htmlspecialchars(trim(str_replace('_', ' ', $arguments['title']))) . '" ';
+        }
+    }
+
+	public function render($arguments = []) {
+		return '<div' . $this->class . $this->style . $this->title . '>' . $this->content . '</div>';
 	}
 }

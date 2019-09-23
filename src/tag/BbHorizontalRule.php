@@ -17,11 +17,15 @@ class BbHorizontalRule extends BbTag {
 		return 'hr';
 	}
 
-	public function parse($arguments = []) {
+	public function render() {
 		return '<hr class="bb-tag-hr" />';
 	}
 
 	public function isParagraphLess() {
 		return true;
 	}
+
+    public function parse($arguments = [])
+    {
+    }
 }

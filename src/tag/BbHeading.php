@@ -16,33 +16,39 @@ use CsrDelft\bb\BbTag;
  */
 class BbHeading extends BbTag {
 
-	public function getTagName() {
+    private $id;
+    /**
+     * @var int
+     */
+    private $heading_level = 1;
+
+    public function getTagName() {
 		return 'h';
 	}
+    public function parse($arguments= []) {
+        if (isset($arguments['id'])) {
+            $this->id = $arguments['id'];
+        }
+        if (isset($arguments['h'])) {
+            $this->heading_level = (int)$arguments['h'];
+        }
+        $this->readContent(['h']);
+        // remove trailing br (or even two)
+        $next_tag = array_shift($this->parser->parseArray);
 
-	public function parse($arguments = []) {
-		$id = '';
-		if (isset($arguments['id'])) {
-			$id = ' id="' . htmlspecialchars($arguments['id']) . '"';
-		}
-		$h = 1;
-		if (isset($arguments['h'])) {
-			$h = (int)$arguments['h'];
-		}
-		$content = $this->getContent(['h']);
-		$text = "<h$h$id class=\"bb-tag-h\">$content</h$h>\n\n";
+        if ($next_tag != '[br]') {
+            array_unshift($this->parser->parseArray, $next_tag);
+        } else {
+            $next_tag = array_shift($this->parser->parseArray);
+            if ($next_tag != '[br]') {
+                array_unshift($this->parser->parseArray, $next_tag);
+            }
+        }
+    }
 
-		// remove trailing br (or even two)
-		$next_tag = array_shift($this->parser->parseArray);
-
-		if ($next_tag != '[br]') {
-			array_unshift($this->parser->parseArray, $next_tag);
-		} else {
-			$next_tag = array_shift($this->parser->parseArray);
-			if ($next_tag != '[br]') {
-				array_unshift($this->parser->parseArray, $next_tag);
-			}
-		}
+	public function render() {
+		$id = $this->id == null ? '' : ' id="' . htmlspecialchars($this->id) . '"';
+		$text = "<h$this->heading_level$id class=\"bb-tag-h\">$this->content</h$this->heading_level>\n\n";
 		return $text;
 	}
 

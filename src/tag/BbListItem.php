@@ -17,7 +17,12 @@ class BbListItem extends BbTag{
 		return 'li';
 	}
 
-	public function parse($arguments = []) {
-		return '<li class="bb-tag-li">' . $this->getContent() . '</li>';
+	public function render() {
+		return '<li class="bb-tag-li">' . $this->content . '</li>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent();
+    }
 }

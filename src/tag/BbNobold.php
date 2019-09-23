@@ -13,11 +13,14 @@ class BbNobold extends BbTag {
 		return 'nobold';
 	}
 
-	public function parse($arguments = []) {
+	public function render($arguments = []) {
 		$this->env->nobold = true;
-		$return = $this->getContent();
+		$return = $this->readContent();
 		$this->env->nobold = false;
-
 		return $return;
 	}
+
+    public function parse($arguments = [])
+    {
+    }
 }

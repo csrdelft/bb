@@ -15,14 +15,21 @@ use CsrDelft\bb\BbTag;
  */
 class BbCode extends BbTag {
 
-	public function getTagName() {
+    /**
+     * @var string
+     */
+    private $code;
+
+    public function getTagName() {
 		return 'code';
 	}
 
-	public function parse($arguments = []) {
-		$content = $this->getContent(['code', 'br', 'all' => 'all']);
-		$code = isset($arguments['code']) ? $arguments['code'] . ' ' : '';
+    public function parse($arguments = []) {
+        $this->readContent(['br'], false);
+        $this->code = isset($arguments['code']) ? $arguments['code'] . ' ' : '';
+    }
 
-		return '<div class="bb-tag-code"><sub>' . $code . 'code:</sub><pre class="bbcode">' . $content . '</pre></div>';
+	public function render() {
+		return '<div class="bb-tag-code"><sub>' . $this->code . 'code:</sub><pre class="bbcode">' . $this->content . '</pre></div>';
 	}
 }

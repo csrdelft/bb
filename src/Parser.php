@@ -346,10 +346,13 @@ abstract class Parser {
 
                     $this->level++;
                     try {
-                        if ($this->env->light_mode) {
-                            $newtext = $tagInstance->parseLight($arguments);
-                        } else {
-                            $newtext = $tagInstance->parse($arguments);
+                        $tagInstance->parse($arguments);
+                        if ($tagInstance->isAllowed()) {
+                            if ($this->env->light_mode) {
+                                $newtext = $tagInstance->renderLight();
+                            } else {
+                                $newtext = $tagInstance->render();
+                            }
                         }
                     } catch (BbException $ex) {
                         $newtext = $ex->getMessage();

@@ -17,47 +17,24 @@ use CsrDelft\bb\BbTag;
  */
 class BbEmail extends BbTag {
 
+    private $text;
+    private $email;
+    private $mailto;
+
     public function getTagName() {
         return 'email';
     }
 
-    public function parse($arguments = []) {
-        $mailto = array_shift($this->parser->parseArray);
-        $endtag = array_shift($this->parser->parseArray);
-
-        $email = '';
-        $text = '';
-
-        // only valid patterns
-        if ($endtag == '[/email]') {
-            if (isset($arguments['email'])) {
-                if ($this->emailLike($arguments['email'])) {
-                    $email = $arguments['email'];
-                    $text = $mailto;
-                }
-            } else {
-                if ($this->emailLike($mailto)) {
-                    $email = $text = $mailto;
-                }
-            }
-        } else {
-            if (isset($arguments['email'])) {
-                if ($this->emailLike($arguments['email'])) {
-                    $email = $text = $arguments['email'];
-                }
-            }
-            array_unshift($this->parser->parseArray, $endtag);
-            array_unshift($this->parser->parseArray, $mailto);
-        }
-        if (!empty($email)) {
-            $html = '<a class="bb-tag-email" href="mailto:' . $email . '">' . $text . '</a>';
+    public function render($arguments = []) {
+        if (!empty($this->email)) {
+            $html = '<a class="bb-tag-email" href="mailto:' . $this->email . '">' . $this->text . '</a>';
 
             //spamprotectie: rot13 de email-tags, en voeg javascript toe om dat weer terug te rot13-en.
             if (isset($arguments['spamsafe'])) {
                 $html = '<script>document.write("' . str_rot13(addslashes($html)) . '".replace(/[a-zA-Z]/g, function(c){ return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));</script>';
             }
         } else {
-            $html = '[email] Ongeldig e-mailadres (' . htmlspecialchars($mailto) . ')';
+            $html = '[email] Ongeldig e-mailadres (' . htmlspecialchars($this->mailto) . ')';
         }
         return $html;
     }
@@ -73,5 +50,40 @@ class BbEmail extends BbTag {
             return false;
         }
         return preg_match("/^[a-zA-Z0-9!#$%&'\*\+=\?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'\*\+=\?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+(?:[a-zA-Z]{2,})\b$/", $email);
+    }
+
+    /**
+     * @param array $arguments
+     * @return array
+     */
+    public function parse($arguments = [])
+    {
+        $this->mailto = array_shift($this->parser->parseArray);
+        $endtag = array_shift($this->parser->parseArray);
+
+        $this->email = '';
+        $this->text = '';
+
+        // only valid patterns
+        if ($endtag == '[/email]') {
+            if (isset($arguments['email'])) {
+                if ($this->emailLike($arguments['email'])) {
+                    $this->email = $arguments['email'];
+                    $this->text = $this->mailto;
+                }
+            } else {
+                if ($this->emailLike($this->mailto)) {
+                    $this->email = $this->text = $this->mailto;
+                }
+            }
+        } else {
+            if (isset($arguments['email'])) {
+                if ($this->emailLike($arguments['email'])) {
+                    $this->email = $this->text = $arguments['email'];
+                }
+            }
+            array_unshift($this->parser->parseArray, $endtag);
+            array_unshift($this->parser->parseArray, $this->mailto);
+        }
     }
 }

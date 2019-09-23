@@ -15,6 +15,11 @@ abstract class BbTag {
      * @var stdClass|BbEnv
      */
     protected $env;
+    /**
+     * The content of the tag. Is empty at parse time. Can be filled by calling readContent()
+     * @var $content
+     */
+    protected $content;
 
     public function __construct(Parser $parser, $env) {
         $this->parser = $parser;
@@ -24,6 +29,12 @@ abstract class BbTag {
     public function isParagraphLess() {
         return false;
     }
+
+    public function isAllowed()
+    {
+        return true;
+    }
+
     /**
      * Read from the parser.
      *
@@ -32,7 +43,9 @@ abstract class BbTag {
      * @param string[] $forbidden Tag names that cannot exist in this tag.
      * @return string|null
      */
-    protected function getContent($forbidden = []) {
+    protected function readContent($forbidden = [], $parse_bb = true) {
+        if ($this->content != NULL)
+            throw new \Error("Can not call readContent twice on the same tag");
         $stoppers = [];
 
         if (is_array($this->getTagName())) {
@@ -43,7 +56,13 @@ abstract class BbTag {
             $stoppers[] = $this->createStopper($this->getTagName());
         }
 
-        return $this->parser->parseArray($stoppers, $forbidden);
+        $parse_bb_state_before = $parse_bb;
+        $this->parser->bb_mode &= $parse_bb;
+
+        $result = $this->parser->parseArray($stoppers, $forbidden);
+
+        $this->parser->bb_mode = $parse_bb_state_before;
+        $this->content = $result;
     }
 
     /**
@@ -65,7 +84,7 @@ abstract class BbTag {
             return trim($arguments[$this->getTagName()]);
         }
 
-        return trim($this->getContent());
+        return trim($this->readContent());
     }
 
     private function createStopper($tagName) {
@@ -79,6 +98,8 @@ abstract class BbTag {
      * @return mixed
      * @throws BbException
      */
+    abstract public function render();
+
     abstract public function parse($arguments = []);
 
     /**
@@ -88,7 +109,7 @@ abstract class BbTag {
      * @return mixed
      * @throws BbException
      */
-    public function parseLight($arguments = []) {
-        return $this->parse($arguments);
+    public function renderLight($arguments = []) {
+        return $this->render($arguments);
     }
 }

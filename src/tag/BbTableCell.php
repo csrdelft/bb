@@ -14,16 +14,23 @@ use CsrDelft\bb\BbTag;
  */
 class BbTableCell extends BbTag {
 
-	public function getTagName() {
+    private $width;
+
+    public function getTagName() {
 		return 'td';
 	}
 
-	public function parse($arguments = []) {
+	public function render($arguments = []) {
 		$style = '';
-		if (isset($arguments['w'])) {
+		if ($this->width != null) {
 			$style .= 'width: ' . (int)$arguments['w'] . 'px; ';
 		}
 
-		return '<td class="bb-tag-td" style="' . $style . '">' . $this->getContent() . '</td>';
+		return '<td class="bb-tag-td" style="' . $style . '">' . $this->readContent() . '</td>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->width = $arguments['w'] ?? null;
+    }
 }

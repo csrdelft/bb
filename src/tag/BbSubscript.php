@@ -17,7 +17,12 @@ class BbSubscript extends BbTag {
 		return 'sub';
 	}
 
-	public function parse($arguments = []) {
-		return '<sub class="bb-tag-sub">' . $this->getContent(['sub', 'sup']) . '</sub>';
+	public function render($arguments = []) {
+		return '<sub class="bb-tag-sub">' . $this->content . '</sub>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['sub', 'sup']);
+    }
 }

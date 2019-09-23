@@ -16,7 +16,12 @@ class BbTableHeader extends BbTag {
 		return 'th';
 	}
 
-	public function parse($arguments = []) {
-		return '<th class="bb-tag-th">' . $this->getContent() . '</th>';
+	public function render($arguments = []) {
+		return '<th class="bb-tag-th">' . $this->content . '</th>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent();
+    }
 }
