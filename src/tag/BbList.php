@@ -24,8 +24,11 @@ class BbList extends BbTag {
 	}
 
 	public function render() {
-        $typeAttribute = $this->type == null ?? "type=\"$this->type\"";
-        return "<ol class=\"bb-tag-list\" $typeAttribute>" . $this->content . '</ol>';
+        if ($this->type == null)
+            return "<ul class=\"bb-tag-list\">" . $this->content . '</ul>';
+        else
+            return "<ol class=\"bb-tag-list\" \"type=\"$this->type\" >" . $this->content . '</ol>';
+
 	}
 
 
