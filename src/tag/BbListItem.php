@@ -13,7 +13,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbListItem extends BbTag{
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'li';
 	}
 

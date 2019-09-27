@@ -18,7 +18,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbTable extends BbTag {
     private $styleProperties;
-	public function getTagName() {
+	public static function getTagName() {
 		return 'table';
 	}
 
@@ -31,7 +31,7 @@ class BbTable extends BbTag {
 		return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->content . '</table>';
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
 

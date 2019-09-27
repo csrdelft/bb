@@ -68,13 +68,17 @@ A tag has access to an environment, which is by default of type `CsrDelft\bb\BBe
 
 ```php
 class BbSuperscript extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'sup';
 	}
 
-	public function parse($arguments = []) {
-		return '<sup class="bb-tag-sup">' . $this->getContent(['sub', 'sup']) . '</sup>';
+	public function render() {
+		return '<sup class="bb-tag-sup">' . $this->>content . '</sup>';
 	}
+    
+    public function parse($arguments = []) {
+         $this->readContent(['sub', 'sup'])
+       }
 }
 ```
 

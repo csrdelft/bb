@@ -19,7 +19,7 @@ class BbList extends BbTag {
 
     private $type;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return ['list', 'ulist'];
 	}
 

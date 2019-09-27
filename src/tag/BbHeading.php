@@ -22,7 +22,7 @@ class BbHeading extends BbTag {
      */
     private $heading_level = 1;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return 'h';
 	}
     public function parse($arguments= []) {
@@ -52,7 +52,7 @@ class BbHeading extends BbTag {
 		return $text;
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
 }

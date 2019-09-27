@@ -13,7 +13,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbHorizontalRule extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'hr';
 	}
 
@@ -21,7 +21,7 @@ class BbHorizontalRule extends BbTag {
 		return '<hr class="bb-tag-hr" />';
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
 

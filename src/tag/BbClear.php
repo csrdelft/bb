@@ -15,7 +15,7 @@ class BbClear extends BbTag {
      */
     private $clearClass;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return 'clear';
 	}
 

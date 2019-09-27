@@ -12,7 +12,7 @@ use CsrDelft\bb\BbTag;
  * @example [th]...[/th]
  */
 class BbTableHeader extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'th';
 	}
 

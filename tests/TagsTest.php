@@ -8,7 +8,12 @@ use Spatie\Snapshots\MatchesSnapshots;
 final class TagsTest extends TestCase
 {
     use MatchesSnapshots;
+    protected $parser;
 
+    public function setUp(): void
+    {
+        $this->parser = new DefaultParser();
+    }
 
     public function testBold()
     {
@@ -21,7 +26,7 @@ final class TagsTest extends TestCase
 
     public function testCode() {
         $this->assertBbCodeMatchSnapshot("[code=javascript]this\n[b]is[/b]\ncode[/code]");
-        $this->assertBbCodeMatchSnapshot(" [code]hello world![/code]");
+        $this->assertBbCodeMatchSnapshot("code: [code]hello world![/code]");
     }
 
     public function testCommentaar() {
@@ -46,7 +51,7 @@ final class TagsTest extends TestCase
     }
 
     private function assertBbCodeMatchSnapshot($code) {
-        $parser = new DefaultParser();
-        $this->assertMatchesSnapshot($parser->getHtml($code));
+
+        $this->assertMatchesSnapshot($this->parser->getHtml($code));
     }
 }

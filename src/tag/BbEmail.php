@@ -21,7 +21,7 @@ class BbEmail extends BbTag {
     private $email;
     private $mailto;
 
-    public function getTagName() {
+    public static function getTagName() {
         return 'email';
     }
 

@@ -27,7 +27,7 @@ class BbDiv extends BbTag {
      */
     private $style;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return 'div';
 	}
 

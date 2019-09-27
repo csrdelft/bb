@@ -19,14 +19,14 @@ abstract class BbTag {
      * The content of the tag. Is empty at parse time. Can be filled by calling readContent()
      * @var $content
      */
-    protected $content;
+    protected $content = null;
 
     public function __construct(Parser $parser, $env) {
         $this->parser = $parser;
         $this->env = $env;
     }
 
-    public function isParagraphLess() {
+    public static function isParagraphLess() {
         return false;
     }
 
@@ -56,7 +56,7 @@ abstract class BbTag {
             $stoppers[] = $this->createStopper($this->getTagName());
         }
 
-        $parse_bb_state_before = $parse_bb;
+        $parse_bb_state_before = $this->parser->bb_mode;
         $this->parser->bb_mode &= $parse_bb;
 
         $result = $this->parser->parseArray($stoppers, $forbidden);
@@ -66,41 +66,42 @@ abstract class BbTag {
     }
 
     /**
-     * Get the main argument for this tag.
+     * Get the main argument for this tag and put it in $this->content.
      *
      * [tag=123] or [tag]123[/tag]
      *
      * @param $arguments
-     * @return string|null
      */
-    protected function getArgument($arguments) {
+    protected function readMainArgument($arguments) {
         if (is_array($this->getTagName())) {
             foreach ($this->getTagName() as $tagName) {
                 if (isset($arguments[$tagName])) {
-                    return trim($arguments[$tagName]);
+                    $this->content = trim($arguments[$tagName]);
                 }
             }
         } elseif (isset($arguments[$this->getTagName()])) {
-            return trim($arguments[$this->getTagName()]);
+            $this->content = trim($arguments[$this->getTagName()]);
         }
-
-        return trim($this->readContent());
+        else {
+            $this->readContent([], false);
+            $this->content = trim($this->content);
+        }
     }
 
     private function createStopper($tagName) {
         return "[/$tagName]";
     }
 
-    abstract public function getTagName();
+    abstract public static function getTagName();
 
     /**
      * @param array $arguments
      * @return mixed
      * @throws BbException
      */
-    abstract public function render();
-
     abstract public function parse($arguments = []);
+
+    abstract public function render();
 
     /**
      * ParseLight defaults to parse
@@ -109,7 +110,7 @@ abstract class BbTag {
      * @return mixed
      * @throws BbException
      */
-    public function renderLight($arguments = []) {
-        return $this->render($arguments);
+    public function renderLight() {
+        return $this->render();
     }
 }

@@ -10,7 +10,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbCommentaar extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'commentaar';
 	}
     public function parse($arguments = []) {

@@ -9,7 +9,7 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  */
 class BbUnderline extends BbTag{
-	public function getTagName() {
+	public static function getTagName() {
 		return 'u';
 	}
     public function parse($arguments = []) {

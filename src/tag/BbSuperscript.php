@@ -13,7 +13,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbSuperscript extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'sup';
 	}
 

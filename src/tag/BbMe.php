@@ -18,7 +18,7 @@ class BbMe extends BbTag {
 
     private $name;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return 'me';
 	}
 

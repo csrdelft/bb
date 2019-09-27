@@ -10,7 +10,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbLeet extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return '1337';
 	}
 

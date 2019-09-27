@@ -14,7 +14,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbTableRow extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'tr';
 	}
 

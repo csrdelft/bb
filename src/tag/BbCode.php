@@ -20,7 +20,7 @@ class BbCode extends BbTag {
      */
     private $code;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return 'code';
 	}
 

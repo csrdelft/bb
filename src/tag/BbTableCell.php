@@ -16,7 +16,7 @@ class BbTableCell extends BbTag {
 
     private $width;
 
-    public function getTagName() {
+    public static function getTagName() {
 		return 'td';
 	}
 

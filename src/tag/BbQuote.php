@@ -12,7 +12,7 @@ use CsrDelft\bb\BbTag;
  * @example [quote]Citaat[/quote]
  */
 class BbQuote extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'quote';
 	}
 
@@ -21,7 +21,7 @@ class BbQuote extends BbTag {
 			'<div class="citaat">' . $this->content . '</div></div>';
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
 

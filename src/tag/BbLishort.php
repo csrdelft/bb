@@ -14,7 +14,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbLishort extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return ['lishort', '*'];
 	}
 

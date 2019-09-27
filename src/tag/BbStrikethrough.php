@@ -10,7 +10,7 @@ use CsrDelft\bb\BbTag;
  */
 class BbStrikethrough extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 's';
 	}
 
