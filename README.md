@@ -73,7 +73,7 @@ class BbSuperscript extends BbTag {
 	}
 
 	public function render() {
-		return '<sup class="bb-tag-sup">' . $this->>content . '</sup>';
+		return '<sup class="bb-tag-sup">' . $this->content . '</sup>';
 	}
     
     public function parse($arguments = []) {
