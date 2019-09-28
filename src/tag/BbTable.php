@@ -17,24 +17,32 @@ use CsrDelft\bb\BbTag;
  * @example [table border=1px_solid_blue]...[/table]
  */
 class BbTable extends BbTag {
-
-	public function getTagName() {
+    private $styleProperties;
+	public static function getTagName() {
 		return 'table';
 	}
 
-	public function parse($arguments = []) {
-		$tableProperties = array('border', 'color', 'background-color', 'border-collapse');
+	public function render($arguments = []) {
 		$style = '';
-		foreach ($arguments as $name => $value) {
-			if (in_array($name, $tableProperties)) {
-				$style .= $name . ': ' . str_replace('_', ' ', htmlspecialchars($value)) . '; ';
-			}
+		foreach ($this->styleProperties as $name => $value) {
+		    $style .= $name . ': ' . str_replace('_', ' ', htmlspecialchars($value)) . '; ';
 		}
 
-		return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->getContent(['br']) . '</table>';
+		return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->content . '</table>';
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['br']);
+        $tableProperties = array('border', 'color', 'background-color', 'border-collapse');
+        foreach ($arguments as $name => $value) {
+            if (in_array($name, $tableProperties)) {
+                $this->styleProperties[$name] = $value;
+            }
+        }
+    }
 }

@@ -14,11 +14,16 @@ use CsrDelft\bb\BbTag;
  */
 class BbLishort extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return ['lishort', '*'];
 	}
 
-	public function parse($arguments = []) {
-		return '<li class="bb-tag-li">' . $this->parser->parseArray(['[br]']) . '</li>';
+	public function render() {
+		return '<li class="bb-tag-li">' . $this->content . '</li>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->content = $this->parser->parseArray(['[br]']);
+    }
 }

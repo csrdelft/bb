@@ -119,18 +119,16 @@ abstract class Parser {
         $this->env = $env;
 
         foreach ($this->tags as $tag) {
-            /** @var BbTag $tagInstance */
-            $tagInstance = new $tag($this, $this->env);
-            if (is_array($tagInstance->getTagName())) {
-                foreach ($tagInstance->getTagName() as $tagName) {
-                    $this->registry[$tagName] = $tagInstance;
+            if (is_array($tag::getTagName())) {
+                foreach ($tag::getTagName() as $tagName) {
+                    $this->registry[$tagName] = $tag;
                 }
             } else {
-                $this->registry[$tagInstance->getTagName()] = $tagInstance;
+                $this->registry[$tag::getTagName()] = $tag;
             }
 
-            if ($tagInstance->isParagraphLess()) {
-                $this->paragraphless_tags[] = $tagInstance->getTagName();
+            if ($tag::isParagraphLess()) {
+                $this->paragraphless_tags[] = $tag::getTagName();
             }
         }
     }
@@ -319,7 +317,7 @@ abstract class Parser {
                 $exists = isset($this->registry[$tag]);
 
                 if ($this->bb_mode && $isOpenTag && $exists && $isAllowed) {
-                    $tagInstance = $this->registry[$tag];
+                    $tagInstance = new $this->registry[$tag]($this, $this->env);
 
                     $arguments = $this->getArguments($entry);
 
@@ -346,10 +344,13 @@ abstract class Parser {
 
                     $this->level++;
                     try {
-                        if ($this->env->light_mode) {
-                            $newtext = $tagInstance->parseLight($arguments);
-                        } else {
-                            $newtext = $tagInstance->parse($arguments);
+                        $tagInstance->parse($arguments);
+                        if ($tagInstance->isAllowed()) {
+                            if ($this->env->light_mode) {
+                                $newtext = $tagInstance->renderLight();
+                            } else {
+                                $newtext = $tagInstance->render();
+                            }
                         }
                     } catch (BbException $ex) {
                         $newtext = $ex->getMessage();

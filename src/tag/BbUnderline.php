@@ -9,11 +9,13 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  */
 class BbUnderline extends BbTag{
-	public function getTagName() {
+	public static function getTagName() {
 		return 'u';
 	}
-
-	public function parse($arguments = []) {
-		return '<ins class="onderstreept bb-tag-u">' . $this->getContent(['u']) . '</ins>';
+    public function parse($arguments = []) {
+        $this->readContent();
+    }
+	public function render() {
+		return '<ins class="onderstreept bb-tag-u">' . $this->content . '</ins>';
 	}
 }

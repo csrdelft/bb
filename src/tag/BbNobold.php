@@ -9,15 +9,18 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  */
 class BbNobold extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'nobold';
 	}
 
-	public function parse($arguments = []) {
+	public function render($arguments = []) {
 		$this->env->nobold = true;
-		$return = $this->getContent();
+		$return = $this->readContent();
 		$this->env->nobold = false;
-
 		return $return;
 	}
+
+    public function parse($arguments = [])
+    {
+    }
 }

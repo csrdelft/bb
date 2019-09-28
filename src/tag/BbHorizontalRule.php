@@ -13,15 +13,19 @@ use CsrDelft\bb\BbTag;
  */
 class BbHorizontalRule extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'hr';
 	}
 
-	public function parse($arguments = []) {
+	public function render() {
 		return '<hr class="bb-tag-hr" />';
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
+
+    public function parse($arguments = [])
+    {
+    }
 }

@@ -10,11 +10,16 @@ use CsrDelft\bb\BbTag;
  */
 class BbStrikethrough extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 's';
 	}
 
-	public function parse($arguments = []) {
-		return '<del class="doorstreept bb-tag-s">' . $this->getContent(['s']) . '</del>';
+	public function render($arguments = []) {
+		return '<del class="doorstreept bb-tag-s">' . $this->content . '</del>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['s']);
+    }
 }

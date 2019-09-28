@@ -10,14 +10,13 @@ use CsrDelft\bb\BbTag;
  */
 class BbCommentaar extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'commentaar';
 	}
-
-	public function parse($arguments = []) {
-		$this->parser->bb_mode = false;
-		$this->getContent();
-		$this->parser->bb_mode = true;
+    public function parse($arguments = []) {
+        $this->readContent([], false);
+    }
+	public function render() {
 		return '';
 	}
 }

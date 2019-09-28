@@ -10,15 +10,23 @@ use CsrDelft\bb\BbTag;
  */
 class BbClear extends BbTag {
 
-	public function getTagName() {
+    /**
+     * @var string
+     */
+    private $clearClass;
+
+    public static function getTagName() {
 		return 'clear';
 	}
 
-	public function parse($arguments = []) {
-		$clearClass = 'clear';
-		if (isset($arguments['clear']) && ($arguments['clear'] === 'left' || $arguments['clear'] === 'right')) {
-			$clearClass .= '-' . $arguments['clear'];
-		}
-		return '<div class="' . $clearClass . '"></div>';
+    public function parse($arguments = []) {
+        $this->clearClass = 'clear';
+        if (isset($arguments['clear']) && ($arguments['clear'] === 'left' || $arguments['clear'] === 'right')) {
+            $this->clearClass .= '-' . $arguments['clear'];
+        }
+    }
+
+	public function render() {
+		return '<div class="' . $this->clearClass . '"></div>';
 	}
 }

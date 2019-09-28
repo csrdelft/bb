@@ -9,15 +9,19 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  */
 class BbBold extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'b';
 	}
 
-	public function parse($arguments = []) {
+    public function parse($arguments = []) {
+        $this->readContent();
+    }
+
+	public function render() {
 		if ($this->env->nobold === true && $this->env->quote_level == 0) {
-			return $this->getContent(['b']);
+			return $this->content;
 		} else {
-			return '<strong class="dikgedrukt bb-tag-b">' . $this->getContent(['b']) . '</strong>';
+			return '<strong class="dikgedrukt bb-tag-b">' . $this->content . '</strong>';
 		}
 	}
 }

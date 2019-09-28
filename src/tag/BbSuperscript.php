@@ -13,11 +13,16 @@ use CsrDelft\bb\BbTag;
  */
 class BbSuperscript extends BbTag {
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'sup';
 	}
 
-	public function parse($arguments = []) {
-		return '<sup class="bb-tag-sup">' . $this->getContent(['sub', 'sup']) . '</sup>';
+	public function render($arguments = []) {
+		return '<sup class="bb-tag-sup">' . $this->content . '</sup>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['sub', 'sup']);
+    }
 }

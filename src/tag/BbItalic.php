@@ -9,11 +9,16 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  */
 class BbItalic extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'i';
 	}
 
-	public function parse($arguments = []) {
-		return '<em class="cursief bb-tag-i">' . $this->getContent(['i']) . '</em>';
+	public function render() {
+		return '<em class="cursief bb-tag-i">' . $this->content . '</em>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent(['i']);
+    }
 }

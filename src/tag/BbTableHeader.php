@@ -12,11 +12,16 @@ use CsrDelft\bb\BbTag;
  * @example [th]...[/th]
  */
 class BbTableHeader extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'th';
 	}
 
-	public function parse($arguments = []) {
-		return '<th class="bb-tag-th">' . $this->getContent() . '</th>';
+	public function render($arguments = []) {
+		return '<th class="bb-tag-th">' . $this->content . '</th>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent();
+    }
 }

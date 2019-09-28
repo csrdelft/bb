@@ -13,11 +13,16 @@ use CsrDelft\bb\BbTag;
  */
 class BbListItem extends BbTag{
 
-	public function getTagName() {
+	public static function getTagName() {
 		return 'li';
 	}
 
-	public function parse($arguments = []) {
-		return '<li class="bb-tag-li">' . $this->getContent() . '</li>';
+	public function render() {
+		return '<li class="bb-tag-li">' . $this->content . '</li>';
 	}
+
+    public function parse($arguments = [])
+    {
+        $this->readContent();
+    }
 }

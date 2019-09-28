@@ -12,28 +12,30 @@ use CsrDelft\bb\BbTag;
  * @example [quote]Citaat[/quote]
  */
 class BbQuote extends BbTag {
-	public function getTagName() {
+	public static function getTagName() {
 		return 'quote';
 	}
 
-	public function parse($arguments = []) {
-		if ($this->env->quote_level == 0) {
-			$this->env->quote_level = 1;
-			$content = $this->getContent();
-			$this->env->quote_level = 0;
-		} else {
-			$this->env->quote_level++;
-			$delcontent = $this->getContent();
-			$this->env->quote_level--;
-			unset($delcontent);
-			$content = '...';
-		}
-
+	public function render($arguments = []) {
 		return '<div class="citaatContainer bb-tag-quote"><strong>Citaat</strong>' .
-			'<div class="citaat">' . $content . '</div></div>';
+			'<div class="citaat">' . $this->content . '</div></div>';
 	}
 
-	public function isParagraphLess() {
+	public static function isParagraphLess() {
 		return true;
 	}
+
+    public function parse($arguments = [])
+    {
+        if ($this->env->quote_level == 0) {
+            $this->env->quote_level = 1;
+            $this->readContent();
+            $this->env->quote_level = 0;
+        } else {
+            $this->env->quote_level++;
+            $this->readContent();
+            $this->env->quote_level--;
+            $this->content = '...';
+        }
+    }
 }
