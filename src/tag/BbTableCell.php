@@ -23,7 +23,7 @@ class BbTableCell extends BbTag {
 	public function render($arguments = []) {
 		$style = '';
 		if ($this->width != null) {
-			$style .= 'width: ' . $this->width . 'px; ';
+			$style .= 'width: ' . (int)$this->width . 'px; ';
 		}
 
 		return '<td class="bb-tag-td" style="' . $style . '">' . $this->content . '</td>';
