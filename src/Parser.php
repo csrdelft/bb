@@ -343,6 +343,7 @@ abstract class Parser {
                     }
 
                     $this->level++;
+                    $newtext = null;
                     try {
                         $tagInstance->parse($arguments);
                         if ($tagInstance->isAllowed()) {
@@ -351,6 +352,9 @@ abstract class Parser {
                             } else {
                                 $newtext = $tagInstance->render();
                             }
+                        }
+                        else {
+                            $newtext = '';
                         }
                     } catch (BbException $ex) {
                         $newtext = $ex->getMessage();
