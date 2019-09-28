@@ -23,7 +23,7 @@ class BbTableCell extends BbTag {
 	public function render($arguments = []) {
 		$style = '';
 		if ($this->width != null) {
-			$style .= 'width: ' . (int)$arguments['w'] . 'px; ';
+			$style .= 'width: ' . $this->width . 'px; ';
 		}
 
 		return '<td class="bb-tag-td" style="' . $style . '">' . $this->readContent() . '</td>';
@@ -31,6 +31,6 @@ class BbTableCell extends BbTag {
 
     public function parse($arguments = [])
     {
-        $this->width = $arguments['w'] ?? null;
+        $this->width = (int)$arguments['w'] ?? null;
     }
 }

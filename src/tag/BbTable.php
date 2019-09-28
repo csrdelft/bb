@@ -17,7 +17,7 @@ use CsrDelft\bb\BbTag;
  * @example [table border=1px_solid_blue]...[/table]
  */
 class BbTable extends BbTag {
-    private $styleProperties;
+    private $styleProperties = [];
 	public static function getTagName() {
 		return 'table';
 	}
