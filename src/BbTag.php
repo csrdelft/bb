@@ -46,16 +46,7 @@ abstract class BbTag {
     protected function readContent($forbidden = [], $parse_bb = true) {
         if ($this->content != NULL)
             throw new \Error("Can not call readContent twice on the same tag");
-        $stoppers = [];
-
-        if (is_array($this->getTagName())) {
-            foreach ($this->getTagName() as $tagName) {
-                $stoppers[] = $this->createStopper($tagName);
-            }
-        } else {
-            $stoppers[] = $this->createStopper($this->getTagName());
-        }
-
+        $stoppers = $this->getStoppers();
         $parse_bb_state_before = $this->parser->bb_mode;
         $this->parser->bb_mode &= $parse_bb;
 
@@ -112,5 +103,20 @@ abstract class BbTag {
      */
     public function renderLight() {
         return $this->render();
+    }
+
+    protected function getStoppers()
+    {
+        $stoppers = [];
+
+        if (is_array($this->getTagName())) {
+            foreach ($this->getTagName() as $tagName) {
+                $stoppers[] = $this->createStopper($tagName);
+            }
+        } else {
+            $stoppers[] = $this->createStopper($this->getTagName());
+        }
+        $stoppers[] = [$this->createStopper('')];
+        return $stoppers;
     }
 }
