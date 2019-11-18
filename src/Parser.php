@@ -292,14 +292,6 @@ abstract class Parser {
                     $forbidden_aantal_open--;
                     $text .= $entry;
                 }
-            } elseif ($this->bb_mode && $entry == '[/]') { // [ubboff] cannot be switched off with this tag.
-                if ($this->level >= 1) {
-                    $this->level--;
-
-                    return $text;
-                } else {
-                    // Weird, [/] while nothing is open...
-                }
             } else {
 
                 $tag = $this->getTag($entry);
