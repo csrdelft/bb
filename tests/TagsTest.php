@@ -19,7 +19,6 @@ final class TagsTest extends TestCase
     {
         $this->assertBbCodeMatchSnapshot("[b][u]bold[/u][/b] not bold");
     }
-
     public function testClear() {
         $this->assertBbCodeMatchSnapshot("[clear] [clear=left] [clear]test[/clear]");
     }
@@ -31,6 +30,11 @@ final class TagsTest extends TestCase
 
     public function testCommentaar() {
         $this->assertBbCodeMatchSnapshot("[commentaar]onzichtbaar[/commentaar]");
+    }
+
+    public function testCommentaar2()
+    {
+        $this->assertBbCodeMatchSnapshot("[commentaar]onzichtbaar[/]zichtbaar");
     }
 
     public function testDiv() {

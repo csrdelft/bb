@@ -116,7 +116,7 @@ abstract class BbTag {
         } else {
             $stoppers[] = $this->createStopper($this->getTagName());
         }
-        $stoppers[] = [$this->createStopper('')];
+        $stoppers[] = $this->createStopper('');
         return $stoppers;
     }
 }
