@@ -309,7 +309,7 @@ abstract class Parser {
                 $exists = isset($this->registry[$tag]);
 
                 if ($this->bb_mode && $isOpenTag && $exists && $isAllowed) {
-                    $tagInstance = new $this->registry[$tag]($this, $this->env);
+                    $tagInstance = $this->createTagInstance($this->registry[$tag], $this, $this->env);
 
                     $arguments = $this->getArguments($entry);
 
@@ -474,6 +474,15 @@ abstract class Parser {
             }
         }
         return $argument_array;
+    }
+
+    protected function createTagInstance(string $tag, Parser $parser, $env) {
+        /** @var BbTag $tagInstance */
+        $tagInstance = new $tag($parser, $env);
+        $tagInstance->setParser($parser);
+        $tagInstance->setEnv($env);
+
+        return $tagInstance;
     }
 
 }

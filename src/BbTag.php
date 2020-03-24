@@ -21,8 +21,11 @@ abstract class BbTag {
      */
     protected $content = null;
 
-    public function __construct(Parser $parser, $env) {
+    public function setParser(Parser $parser) {
         $this->parser = $parser;
+    }
+
+    public function setEnv($env) {
         $this->env = $env;
     }
 
