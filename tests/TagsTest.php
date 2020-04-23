@@ -1,9 +1,20 @@
 <?php
 
+namespace CsrDelft\bb\test;
+
 use CsrDelft\bb\DefaultParser;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use CsrDelft\bb\Parser;
+use Spatie\Snapshots\Drivers\VarDriver;
 use Spatie\Snapshots\MatchesSnapshots;
+
+class VarDriverPlatformIndependent extends VarDriver {
+    public function match($expected, $actual) {
+        $evaluated = eval(substr($expected, strlen('<?php ')));
+
+        Assert::assertEquals(str_replace("\r\n", "\n", $evaluated), $actual);
+    }
+}
 
 final class TagsTest extends TestCase
 {
@@ -54,8 +65,11 @@ final class TagsTest extends TestCase
         $this->assertBbCodeMatchSnapshot("[h=2 id=foo]heading[/h]");
     }
 
-    private function assertBbCodeMatchSnapshot($code) {
+    public function testBrokenCode() {
+        $this->assertBbCodeMatchSnapshot("=][");
+    }
 
-        $this->assertMatchesSnapshot($this->parser->getHtml($code));
+    private function assertBbCodeMatchSnapshot($code) {
+        $this->assertMatchesSnapshot($this->parser->getHtml($code), new VarDriverPlatformIndependent());
     }
 }

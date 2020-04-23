@@ -149,7 +149,7 @@ abstract class Parser {
 
         // Create the parsearray with the buildarray function, pretty nice ;)
         $this->tags_counted = 0;
-        $this->parseArray = $this->buildArray($this->bbcode);
+        $this->parseArray = $this->tokenize($this->bbcode);
 
         // Fix html rights
         $this->htmlFix();
@@ -160,66 +160,45 @@ abstract class Parser {
         return $this->HTML;
     }
 
-    /**
-     * Breaks the inputted BB code into an array of text and tags
-     */
-    private function buildArray($string) {
+    private function tokenize($str) {
+        $tokens = "[]";
 
-        if (strlen($string) == 0) // Empty or no string
-            return false;
+        $index = 0;
+        $prevIndex = 0;
+        $numTags = 0;
 
-        $opensign = strpos($string, '[');
-        $nextopensign = strpos($string, '[', $opensign + 1);
-        $closesign = strpos($string, ']');
+        $word = strtok($str, $tokens);
 
-        // if there are no more opensigns, or closesigns, or if the closesign is on position 0
-        if ($opensign === false || $closesign == false)
-            return Array($string);
+        while (false !== $word) {
+            $index = strpos($str, $word, $index);
 
-        // Check max tags limit
-        if ($this->tags_counted >= $this->max_tags) {
-            return Array('<b style="color:red">[max # of tags reached, quitting splitting procedure]</b>' . $string);
-        }
+            // This word is a tag if it it surrounded by [ and ]
+            if (strpos($str, "[$word]", $index - 1) === $index - 1) {
+                $words[] = "[$word]";
+                $index += strlen($word) + 1;
 
-        // Nothing's been found yet ;)
-        $found = false;
-
-        while (!$found) {
-
-            if ($closesign > $opensign && $closesign < $nextopensign) { // Parfait
-                $found = true;
-            } elseif ($closesign > $opensign) { // Maar er komt er nog een opensign
-                $opensign = $nextopensign;
-            } else { // Close is na open!
-                while ($closesign < $opensign) {
-                    $closesign = strpos($string, ']', $closesign + 1);
-                }
+                $numTags++;
+            } else {
+                $words[] = substr($str, $prevIndex, $index + strlen($word) - $prevIndex);
+                $index += strlen($word);
             }
 
-            $nextopensign = strpos($string, '[', $opensign + 1);
-            if ($nextopensign === false) { // No more opensigns, stop looping
-                $found = true;
+            $word = strtok($tokens);
+
+            $prevIndex = $index;
+
+            if ($numTags > $this->max_tags) {
+                return ['<b style="color:red">[max # of tags reached, quitting splitting procedure]</b>' . $str];
             }
         }
 
-        $tag = substr($string, $opensign, $closesign - $opensign + 1);
-        $pretext = substr($string, 0, $opensign);
+        // The string can have trailing tokens, we want to return these.
+        $words[] = substr($str, $index);
 
-        $current = Array($tag);
+        // Cleanup
+        strtok('', '');
 
-        // Only non [br] tags must count toward max tag limit.
-        if ($tag != self::BR_TAG) {
-            $this->tags_counted++;
-        }
-
-        if (!empty($pretext))
-            array_unshift($current, $pretext);
-
-        $rec_arr = $this->buildArray(substr($string, $closesign + 1));
-        if (!is_array($rec_arr)) {
-            $rec_arr = Array($rec_arr);
-        }
-        return array_merge($current, $rec_arr);
+        return $words;
     }
 
     /**
