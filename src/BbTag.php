@@ -1,6 +1,7 @@
 <?php
 namespace CsrDelft\bb;
 
+use Error;
 use stdClass;
 
 abstract class BbTag {
@@ -44,11 +45,10 @@ abstract class BbTag {
      * NOTE: this consumes the input string.
      *
      * @param string[] $forbidden Tag names that cannot exist in this tag.
-     * @return string|null
      */
     protected function readContent($forbidden = [], $parse_bb = true) {
         if ($this->content != NULL)
-            throw new \Error("Can not call readContent twice on the same tag");
+            throw new Error("Can not call readContent twice on the same tag");
         $stoppers = $this->getStoppers();
         $parse_bb_state_before = $this->parser->bb_mode;
         $this->parser->bb_mode &= $parse_bb;
@@ -100,7 +100,6 @@ abstract class BbTag {
     /**
      * ParseLight defaults to parse
      *
-     * @param array $arguments
      * @return mixed
      * @throws BbException
      */
