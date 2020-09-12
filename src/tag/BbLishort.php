@@ -22,6 +22,10 @@ class BbLishort extends BbTag {
 		return '<li class="bb-tag-li">' . $this->content . '</li>';
 	}
 
+	public function renderPlain() {
+        return " * " . $this->content;
+    }
+
     public function parse($arguments = [])
     {
         $this->content = $this->parser->parseArray(['[br]']);

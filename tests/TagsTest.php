@@ -12,7 +12,7 @@ class VarDriverPlatformIndependent extends VarDriver {
     public function match($expected, $actual) {
         $evaluated = eval(substr($expected, strlen('<?php ')));
 
-        Assert::assertEquals(str_replace("\r\n", "\n", $evaluated), $actual);
+        Assert::assertEquals(str_replace("\r\n", "\n", $evaluated), str_replace("\r\n", "\n", $actual));
     }
 }
 

@@ -39,6 +39,10 @@ class BbEmail extends BbTag {
         return $html;
     }
 
+    public function renderPlain() {
+        return $this->text . " <" . $this->email . ">";
+    }
+
     /**
      * @source http://www.regular-expressions.info/email.html
      * @param $email

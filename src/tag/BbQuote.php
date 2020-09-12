@@ -16,7 +16,11 @@ class BbQuote extends BbTag {
 		return 'quote';
 	}
 
-	public function render($arguments = []) {
+	public function renderPlain() {
+        return "> " . str_replace("\n", "\n> ", $this->content);
+    }
+
+    public function render($arguments = []) {
 		return '<div class="citaatContainer bb-tag-quote"><strong>Citaat</strong>' .
 			'<div class="citaat">' . $this->content . '</div></div>';
 	}

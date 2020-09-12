@@ -145,7 +145,11 @@ abstract class Parser {
             return null;
         }
 
-        $this->bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
+        if ($this->env->mode === "plain") {
+            $this->bbcode = $bbcode;
+        } else {
+            $this->bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
+        }
 
         // Create the parsearray with the buildarray function, pretty nice ;)
         $this->tags_counted = 0;
@@ -318,8 +322,10 @@ abstract class Parser {
                     try {
                         $tagInstance->parse($arguments);
                         if ($tagInstance->isAllowed()) {
-                            if ($this->env->light_mode) {
+                            if ($this->env->mode == "light") {
                                 $newtext = $tagInstance->renderLight();
+                            } elseif ($this->env->mode == "plain") {
+                                $newtext = $tagInstance->renderPlain();
                             } else {
                                 $newtext = $tagInstance->render();
                             }

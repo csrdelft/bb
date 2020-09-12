@@ -7,8 +7,10 @@ namespace CsrDelft\bb;
  * @since 27/03/2019
  */
 class BbEnv {
-    public $light_mode = false;
-    public $email_mode = false;
+    /**
+     * @var string One of default, light, plain
+     */
+    public $mode = "default";
     public $quote_level = 0;
     public $nobold = false;
 }

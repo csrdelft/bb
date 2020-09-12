@@ -52,7 +52,12 @@ class BbHeading extends BbTag {
 		return $text;
 	}
 
-	public static function isParagraphLess() {
+	public function renderPlain() {
+        $lines = explode("\n", $this->content);
+        return $this->content . "\n" . str_repeat("-", strlen(end($lines)));
+    }
+
+    public static function isParagraphLess() {
 		return true;
 	}
 }

@@ -107,6 +107,15 @@ abstract class BbTag {
         return $this->render();
     }
 
+    /**
+     * render plain will strip html tags by default.
+     *
+     * @return string
+     */
+    public function renderPlain() {
+        return strip_tags($this->render());
+    }
+
     protected function getStoppers()
     {
         $stoppers = [];

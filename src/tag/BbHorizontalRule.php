@@ -21,7 +21,11 @@ class BbHorizontalRule extends BbTag {
 		return '<hr class="bb-tag-hr" />';
 	}
 
-	public static function isParagraphLess() {
+	public function renderPlain() {
+        return "---";
+    }
+
+    public static function isParagraphLess() {
 		return true;
 	}
 

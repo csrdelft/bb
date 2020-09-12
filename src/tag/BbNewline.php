@@ -18,6 +18,10 @@ class BbNewline extends BbTag {
 		return '<br />';
 	}
 
+	public function renderPlain() {
+        return "\n";
+    }
+
     public function parse($arguments = [])
     {
     }

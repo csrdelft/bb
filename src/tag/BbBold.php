@@ -17,7 +17,15 @@ class BbBold extends BbTag {
         $this->readContent();
     }
 
-	public function render() {
+    public function renderPlain() {
+        if ($this->env->nobold === true && $this->env->quote_level == 0) {
+            return $this->content;
+        } else {
+            return '*' . $this->content . '*';
+        }
+    }
+
+    public function render() {
 		if ($this->env->nobold === true && $this->env->quote_level == 0) {
 			return $this->content;
 		} else {
