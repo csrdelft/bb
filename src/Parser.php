@@ -369,7 +369,6 @@ abstract class Parser {
                     $this->level++;
                     try {
                         $tagInstance->parse($arguments);
-                        $tagInstance->setArguments($arguments);
                     } catch (BbException $ex) {
                         $tagInstance = new BbError($ex->getMessage());
                     }

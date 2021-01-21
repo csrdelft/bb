@@ -52,9 +52,4 @@ class BbError implements BbNode
     {
         return $this->render();
     }
-
-    public function getArguments()
-    {
-        return [];
-    }
 }

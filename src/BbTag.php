@@ -24,7 +24,6 @@ abstract class BbTag implements BbNode
      * @var string|null
      */
     private $content = null;
-    private $arguments;
     /**
      * @var BbNode[]|null
      */
@@ -104,16 +103,6 @@ abstract class BbTag implements BbNode
     public function renderPlain()
     {
         return strip_tags($this->render());
-    }
-
-    public function getArguments()
-    {
-        return $this->arguments;
-    }
-
-    public function setArguments($arguments)
-    {
-        $this->arguments = $arguments;
     }
 
     /**
