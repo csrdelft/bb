@@ -151,7 +151,7 @@ abstract class Parser {
             return null;
         }
 
-        $blocks = $this->parse($bbcode);
+        $blocks = $this->parseString($bbcode);
 
         $html = $this->render($blocks, $this->env->mode);
 
@@ -164,7 +164,7 @@ abstract class Parser {
      * @param string $bbcode
      * @return Node[]|null
      */
-    public function parse($bbcode) {
+    public function parseString($bbcode) {
         if ($this->env->mode !== "plain") {
             $bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
         }
