@@ -28,7 +28,7 @@ class BbTable extends BbTag {
 		    $style .= $name . ': ' . str_replace('_', ' ', htmlspecialchars($value)) . '; ';
 		}
 
-		return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->content . '</table>';
+		return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->getContent() . '</table>';
 	}
 
 	public static function isParagraphLess() {

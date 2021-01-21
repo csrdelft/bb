@@ -9,27 +9,32 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  */
 class BbBold extends BbTag {
+    private $disabled = false;
+
 	public static function getTagName() {
 		return 'b';
 	}
 
     public function parse($arguments = []) {
+	    if ($this->env->nobold === true && $this->env->quote_level == 0) {
+	        $this->disabled = true;
+        }
         $this->readContent();
     }
 
     public function renderPlain() {
-        if ($this->env->nobold === true && $this->env->quote_level == 0) {
-            return $this->content;
+        if ($this->disabled) {
+            return $this->getContent();
         } else {
-            return '*' . $this->content . '*';
+            return '*' . $this->getContent() . '*';
         }
     }
 
     public function render() {
-		if ($this->env->nobold === true && $this->env->quote_level == 0) {
-			return $this->content;
+		if ($this->disabled) {
+			return $this->getContent();
 		} else {
-			return '<strong class="dikgedrukt bb-tag-b">' . $this->content . '</strong>';
+			return '<strong class="dikgedrukt bb-tag-b">' . $this->getContent() . '</strong>';
 		}
 	}
 }

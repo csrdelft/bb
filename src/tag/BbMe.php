@@ -24,16 +24,15 @@ class BbMe extends BbTag {
 
 	public function render($arguments = []) {
 		if ($this->name != null) {
-			return '<span style="color:red;">* ' . $this->name . $this->content . '</span>';
+			return '<span style="color:red;">* ' . $this->name . $this->getContent() . '</span>';
 		} else {
-			return '<span style="color:red;">/me' . $this->content . '</span>';
+			return '<span style="color:red;">/me' . $this->getContent() . '</span>';
 		}
 	}
 
     public function parse($arguments = [])
     {
-
-        $this->content = $this->parser->parseArray(['[br]']);
+        $this->setChildren($this->parser->parseArray(['[br]']));
         array_unshift($this->parser->parseArray, '[br]');
         $this->name = $arguments['me'] ?? null;
     }

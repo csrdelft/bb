@@ -57,9 +57,9 @@ Tags must extend the `\CsrDelft\bb\BbTag` class. Tags must implement the `parse(
 
 The `getTagName` method retuns a string or list of strings with the name(s) of this tag.
 
-The `parse` method receives a map of arguments. The `getContent` method can be used to retrieve the contents of
+The `parse` method receives a map of arguments. The `readContent` method can be used to retrieve the contents of
 the tag, this content is parsed by the parser when it is received. The parser reads the input until an end tag is
-found. `getContent` has an optional parameter for tags which are forbidden to be in this tag. For instance a `[sup]`
+found. `readContent` has an optional parameter for tags which are forbidden to be in this tag. For instance a `[sup]`
 tag cannot contain another sup tag or a sub tag.
 
 A tag has access to an environment, which is by default of type `CsrDelft\bb\BBenv` (can be overridden).
@@ -73,11 +73,11 @@ class BbSuperscript extends BbTag {
 	}
 
 	public function render() {
-		return '<sup class="bb-tag-sup">' . $this->content . '</sup>';
+		return '<sup class="bb-tag-sup">' . $this->getContent() . '</sup>';
 	}
     
     public function parse($arguments = []) {
-         $this->readContent(['sub', 'sup'])
+         $this->readContent(['sub', 'sup']);
        }
 }
 ```

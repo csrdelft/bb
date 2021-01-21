@@ -24,10 +24,11 @@ class BbList extends BbTag {
 	}
 
 	public function render() {
-        if ($this->type == null)
-            return "<ul class=\"bb-tag-list\">" . $this->content . '</ul>';
-        else
-            return "<ol class=\"bb-tag-list\" \"type=\"$this->type\" >" . $this->content . '</ol>';
+        if ($this->type == null) {
+            return "<ul class=\"bb-tag-list\">{$this->getContent()}</ul>";
+        } else {
+            return "<ol class=\"bb-tag-list\" \"type=\"$this->type\" >{$this->getContent()}</ol>";
+        }
 
 	}
 

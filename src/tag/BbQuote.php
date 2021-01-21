@@ -3,6 +3,7 @@
 namespace CsrDelft\bb\tag;
 
 use CsrDelft\bb\BbTag;
+use CsrDelft\bb\internal\BbString;
 
 /**
  * Quote
@@ -17,12 +18,12 @@ class BbQuote extends BbTag {
 	}
 
 	public function renderPlain() {
-        return "> " . str_replace("\n", "\n> ", $this->content);
+        return "> " . str_replace("\n", "\n> ", $this->getContent());
     }
 
     public function render($arguments = []) {
 		return '<div class="citaatContainer bb-tag-quote"><strong>Citaat</strong>' .
-			'<div class="citaat">' . $this->content . '</div></div>';
+			'<div class="citaat">' . $this->getContent() . '</div></div>';
 	}
 
 	public static function isParagraphLess() {
@@ -39,7 +40,7 @@ class BbQuote extends BbTag {
             $this->env->quote_level++;
             $this->readContent();
             $this->env->quote_level--;
-            $this->content = '...';
+            $this->setChildren([new BbString("...")]);
         }
     }
 }

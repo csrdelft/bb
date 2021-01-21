@@ -2,6 +2,10 @@
 
 namespace CsrDelft\bb;
 
+use CsrDelft\bb\internal\BbError;
+use CsrDelft\bb\internal\BbString;
+use CsrDelft\bb\tag\BbNode;
+
 /**
  * Main BB-code Parser file
  *
@@ -24,6 +28,8 @@ abstract class Parser {
      *    [3] => [/b]
      *    [4] => , cool huh?!
      *      )
+     *
+     * @var string[]
      */
     public $parseArray = array();
     /**
@@ -145,23 +151,66 @@ abstract class Parser {
             return null;
         }
 
-        if ($this->env->mode === "plain") {
-            $this->bbcode = $bbcode;
-        } else {
-            $this->bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
+        $blocks = $this->parseString($bbcode);
+
+        $html = $this->render($blocks, $this->env->mode);
+
+        $this->HTML = str_replace(self::BR_TAG, "<br />\n", $html);
+
+        return $this->HTML;
+    }
+
+    /**
+     * @param string $bbcode
+     * @return BbNode[]|null
+     */
+    public function parseString($bbcode) {
+        if ($this->env->mode !== "plain") {
+            $bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
         }
 
         // Create the parsearray with the buildarray function, pretty nice ;)
         $this->tags_counted = 0;
-        $this->parseArray = $this->tokenize($this->bbcode);
+        $this->parseArray = $this->tokenize($bbcode);
 
         // Fix html rights
         $this->htmlFix();
 
-        // Get output
-        $this->HTML = str_replace(self::BR_TAG, "<br />\n", $this->parseArray());
+        return $this->parseArray();
+    }
 
-        return $this->HTML;
+    /**
+     * Renders a Node[] to a string.
+     *
+     * @param BbNode[] $blocks
+     * @param string $mode
+     * @return string
+     */
+    public function render($blocks, $mode)
+    {
+        if (empty($blocks)) {
+            return '';
+        }
+
+        $text = '';
+
+        foreach ($blocks as $block) {
+            if ($block->isAllowed()) {
+                $block->setContent($this->render($block->getChildren(), $mode));
+
+                if ($mode == "light") {
+                    $text .= $block->renderLight();
+                } elseif ($mode == "plain") {
+                    $text .= $block->renderPlain();
+                } else {
+                    $text .= $block->render();
+                }
+            } else {
+                $text .= '';
+            }
+    }
+
+        return $text;
     }
 
     private function tokenize($str) {
@@ -253,14 +302,14 @@ abstract class Parser {
      * Walks through the array until one of the stoppers is found. When encountering an 'open' tag, which is not in $forbidden, open corresponding bb_ function.
      * @param array $stoppers
      * @param array $forbidden
-     * @return string|null
+     * @return BbNode[]
      */
     public function parseArray($stoppers = [], $forbidden = []) {
 
         if (!is_array($this->parseArray)) { // Well, nothing to parse
             return null;
         }
-        $text = '';
+        $blocks = [];
 
         $forbidden_aantal_open = 0;
         while ($entry = array_shift($this->parseArray)) {
@@ -270,10 +319,10 @@ abstract class Parser {
                 if ($forbidden_aantal_open == 0) {
 
                     $this->level--;
-                    return $text;
+                    return $blocks;
                 } else {
                     $forbidden_aantal_open--;
-                    $text .= $entry;
+                    $blocks[] = new BbString($entry);
                 }
             } else {
 
@@ -318,30 +367,18 @@ abstract class Parser {
                     }
 
                     $this->level++;
-                    $newtext = null;
                     try {
                         $tagInstance->parse($arguments);
-                        if ($tagInstance->isAllowed()) {
-                            if ($this->env->mode == "light") {
-                                $newtext = $tagInstance->renderLight();
-                            } elseif ($this->env->mode == "plain") {
-                                $newtext = $tagInstance->renderPlain();
-                            } else {
-                                $newtext = $tagInstance->render();
-                            }
-                        }
-                        else {
-                            $newtext = '';
-                        }
                     } catch (BbException $ex) {
-                        $newtext = $ex->getMessage();
+                        $tagInstance = new BbError($ex->getMessage());
                     }
 
                     // Reset paragraph_required.
-                    if ($this->paragraph_mode && $paragraph_setting_modified)
+                    if ($this->paragraph_mode && $paragraph_setting_modified) {
                         $this->paragraph_required = true;
+                    }
 
-                    $text .= $newtext;
+                    $blocks[] = $tagInstance;
                 } else {
 
                     if ($this->paragraph_mode && $entry == self::BR_TAG) {
@@ -394,17 +431,17 @@ abstract class Parser {
                         $this->paragraph_open = true;
                     }
 
-                    $text .= $entry;
+                    $blocks[] = new BbString($entry);
                 }
             }
         } // End of BIG while!
 
         if ($this->paragraph_open) { // No need for a level check, should be zero anyway.
             $this->paragraph_open = false;
-            $text .= '</p>';
+            $blocks[] = new BbString("</p>");
         }
 
-        return $text;
+        return $blocks;
     }
 
     /**

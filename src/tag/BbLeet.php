@@ -15,7 +15,7 @@ class BbLeet extends BbTag {
 	}
 
 	public function render() {
-		$html = $this->content;
+		$html = $this->getContent();
 		$html = str_replace('er ', '0r ', $html);
 		$html = str_replace('you', 'j00', $html);
 		$html = str_replace('elite', '1337', $html);

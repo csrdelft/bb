@@ -24,5 +24,6 @@ class BbNewline extends BbTag {
 
     public function parse($arguments = [])
     {
+        // No arguments
     }
 }

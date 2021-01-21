@@ -18,7 +18,7 @@ class BbSubscript extends BbTag {
 	}
 
 	public function render($arguments = []) {
-		return '<sub class="bb-tag-sub">' . $this->content . '</sub>';
+		return '<sub class="bb-tag-sub">' . $this->getContent() . '</sub>';
 	}
 
     public function parse($arguments = [])

@@ -48,13 +48,13 @@ class BbHeading extends BbTag {
 
 	public function render() {
 		$id = $this->id == null ? '' : ' id="' . htmlspecialchars($this->id) . '"';
-		$text = "<h$this->heading_level$id class=\"bb-tag-h\">$this->content</h$this->heading_level>\n\n";
+		$text = "<h$this->heading_level$id class=\"bb-tag-h\">{$this->getContent()}</h$this->heading_level>\n\n";
 		return $text;
 	}
 
 	public function renderPlain() {
-        $lines = explode("\n", $this->content);
-        return $this->content . "\n" . str_repeat("-", strlen(end($lines)));
+        $lines = explode("\n", $this->getContent());
+        return $this->getContent() . "\n" . str_repeat("-", strlen(end($lines)));
     }
 
     public static function isParagraphLess() {

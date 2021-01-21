@@ -26,6 +26,10 @@ class BbDiv extends BbTag {
      * @var string
      */
     private $style;
+    /**
+     * @var string
+     */
+    private $title;
 
     public static function getTagName() {
 		return 'div';
@@ -64,6 +68,6 @@ class BbDiv extends BbTag {
     }
 
 	public function render($arguments = []) {
-		return '<div' . $this->class . $this->style . $this->title . '>' . $this->content . '</div>';
+		return '<div' . $this->class . $this->style . $this->title . '>' . $this->getContent() . '</div>';
 	}
 }

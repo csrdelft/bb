@@ -17,7 +17,7 @@ class BbTableHeader extends BbTag {
 	}
 
 	public function render($arguments = []) {
-		return '<th class="bb-tag-th">' . $this->content . '</th>';
+		return '<th class="bb-tag-th">' . $this->getContent() . '</th>';
 	}
 
     public function parse($arguments = [])

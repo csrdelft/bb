@@ -18,7 +18,7 @@ class BbSuperscript extends BbTag {
 	}
 
 	public function render($arguments = []) {
-		return '<sup class="bb-tag-sup">' . $this->content . '</sup>';
+		return '<sup class="bb-tag-sup">' . $this->getContent() . '</sup>';
 	}
 
     public function parse($arguments = [])

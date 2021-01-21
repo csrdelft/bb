@@ -15,11 +15,11 @@ class BbStrikethrough extends BbTag {
 	}
 
 	public function render($arguments = []) {
-		return '<del class="doorstreept bb-tag-s">' . $this->content . '</del>';
+		return '<del class="doorstreept bb-tag-s">' . $this->getContent() . '</del>';
 	}
 
 	public function renderPlain() {
-        return "~" . $this->content . "~";
+        return "~" . $this->getContent() . "~";
     }
 
     public function parse($arguments = [])
