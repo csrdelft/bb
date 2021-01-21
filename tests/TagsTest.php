@@ -1,20 +1,9 @@
 <?php
 
-namespace CsrDelft\bb\test;
-
 use CsrDelft\bb\DefaultParser;
-use PHPUnit\Framework\Assert;
+use CsrDelft\bb\test\VarDriverPlatformIndependent;
 use PHPUnit\Framework\TestCase;
-use Spatie\Snapshots\Drivers\VarDriver;
 use Spatie\Snapshots\MatchesSnapshots;
-
-class VarDriverPlatformIndependent extends VarDriver {
-    public function match($expected, $actual) {
-        $evaluated = eval(substr($expected, strlen('<?php ')));
-
-        Assert::assertEquals(str_replace("\r\n", "\n", $evaluated), str_replace("\r\n", "\n", $actual));
-    }
-}
 
 final class TagsTest extends TestCase
 {

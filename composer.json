@@ -15,7 +15,8 @@
   },
   "autoload": {
     "psr-4": {
-      "CsrDelft\\bb\\": "src/"
+      "CsrDelft\\bb\\": "src/",
+      "CsrDelft\\bb\\test\\": "tests/lib/"
     }
   },
   "scripts": {

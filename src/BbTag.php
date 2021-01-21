@@ -1,10 +1,11 @@
 <?php
 namespace CsrDelft\bb;
 
+use CsrDelft\bb\tag\Node;
 use Error;
 use stdClass;
 
-abstract class BbTag {
+abstract class BbTag implements Node {
     /**
      * @var Parser
      */
@@ -18,7 +19,7 @@ abstract class BbTag {
     protected $env;
     /**
      * The content of the tag. Is empty at parse time. Can be filled by calling readContent()
-     * @var $content
+     * @var string|null
      */
     protected $content = null;
 
@@ -56,29 +57,33 @@ abstract class BbTag {
         $result = $this->parser->parseArray($stoppers, $forbidden);
 
         $this->parser->bb_mode = $parse_bb_state_before;
-        $this->content = $result;
+        $this->children = $result;
     }
 
     /**
-     * Get the main argument for this tag and put it in $this->content.
+     * Get the main argument for this tag and return it.
      *
      * [tag=123] or [tag]123[/tag]
      *
      * @param $arguments
+     * @return string
      */
     protected function readMainArgument($arguments) {
         if (is_array($this->getTagName())) {
             foreach ($this->getTagName() as $tagName) {
                 if (isset($arguments[$tagName])) {
-                    $this->content = trim($arguments[$tagName]);
+                    return trim($arguments[$tagName]);
                 }
             }
+
+            return '';
         } elseif (isset($arguments[$this->getTagName()])) {
-            $this->content = trim($arguments[$this->getTagName()]);
+            return trim($arguments[$this->getTagName()]);
         }
         else {
             $this->readContent([], false);
-            $this->content = trim($this->content);
+            // parse_bb is disabled in readContent, so all nodes should be BbString
+            return trim(implode(array_map(function (Node $node) { return $node->render(); }, $this->children)));
         }
     }
 
@@ -96,6 +101,36 @@ abstract class BbTag {
     abstract public function parse($arguments = []);
 
     abstract public function render();
+
+    /**
+     * @var Node[]|null
+     */
+    private $children;
+
+    /**
+     * @param Node[] $children
+     */
+    public function setChildren($children) {
+        $this->children = $children;
+    }
+
+    /**
+     * @return Node[]|null
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
 
     /**
      * ParseLight defaults to parse

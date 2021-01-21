@@ -28,6 +28,6 @@ class BbLishort extends BbTag {
 
     public function parse($arguments = [])
     {
-        $this->content = $this->parser->parseArray(['[br]']);
+        $this->setChildren($this->parser->parseArray(['[br]']));
     }
 }
