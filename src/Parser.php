@@ -4,7 +4,7 @@ namespace CsrDelft\bb;
 
 use CsrDelft\bb\internal\BbError;
 use CsrDelft\bb\internal\BbString;
-use CsrDelft\bb\tag\Node;
+use CsrDelft\bb\tag\BbNode;
 
 /**
  * Main BB-code Parser file
@@ -162,7 +162,7 @@ abstract class Parser {
 
     /**
      * @param string $bbcode
-     * @return Node[]|null
+     * @return BbNode[]|null
      */
     public function parseString($bbcode) {
         if ($this->env->mode !== "plain") {
@@ -182,7 +182,7 @@ abstract class Parser {
     /**
      * Renders a Node[] to a string.
      *
-     * @param Node[] $blocks
+     * @param BbNode[] $blocks
      * @param string $mode
      * @return string
      */
@@ -302,7 +302,7 @@ abstract class Parser {
      * Walks through the array until one of the stoppers is found. When encountering an 'open' tag, which is not in $forbidden, open corresponding bb_ function.
      * @param array $stoppers
      * @param array $forbidden
-     * @return Node[]
+     * @return BbNode[]
      */
     public function parseArray($stoppers = [], $forbidden = []) {
 
@@ -369,6 +369,7 @@ abstract class Parser {
                     $this->level++;
                     try {
                         $tagInstance->parse($arguments);
+                        $tagInstance->setArguments($arguments);
                     } catch (BbException $ex) {
                         $tagInstance = new BbError($ex->getMessage());
                     }

@@ -3,9 +3,9 @@
 
 namespace CsrDelft\bb\internal;
 
-use CsrDelft\bb\tag\Node;
+use CsrDelft\bb\tag\BbNode;
 
-class BbString implements Node
+class BbString implements BbNode
 {
     /**
      * @var string
@@ -50,5 +50,10 @@ class BbString implements Node
     public function renderLight()
     {
         return $this->render();
+    }
+
+    public function getArguments()
+    {
+        return [];
     }
 }

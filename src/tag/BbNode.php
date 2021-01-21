@@ -4,7 +4,7 @@
 namespace CsrDelft\bb\tag;
 
 
-interface Node
+interface BbNode
 {
     public function renderPlain();
     public function renderLight();
@@ -15,4 +15,6 @@ interface Node
     public function getContent();
 
     public function isAllowed();
+
+    public function getArguments();
 }

@@ -1,11 +1,13 @@
 <?php
+
 namespace CsrDelft\bb;
 
-use CsrDelft\bb\tag\Node;
+use CsrDelft\bb\tag\BbNode;
 use Error;
 use stdClass;
 
-abstract class BbTag implements Node {
+abstract class BbTag implements BbNode
+{
     /**
      * @var Parser
      */
@@ -22,17 +24,25 @@ abstract class BbTag implements Node {
      * @var string|null
      */
     private $content = null;
+    private $arguments;
+    /**
+     * @var BbNode[]|null
+     */
+    private $children;
 
-    public function setParser(Parser $parser) {
+    public static function isParagraphLess()
+    {
+        return false;
+    }
+
+    public function setParser(Parser $parser)
+    {
         $this->parser = $parser;
     }
 
-    public function setEnv($env) {
+    public function setEnv($env)
+    {
         $this->env = $env;
-    }
-
-    public static function isParagraphLess() {
-        return false;
     }
 
     public function isAllowed()
@@ -41,23 +51,69 @@ abstract class BbTag implements Node {
     }
 
     /**
-     * Read from the parser.
-     *
-     * NOTE: this consumes the input string.
-     *
-     * @param string[] $forbidden Tag names that cannot exist in this tag.
+     * @param array $arguments
+     * @return mixed
+     * @throws BbException
      */
-    protected function readContent($forbidden = [], $parse_bb = true) {
-        if ($this->content != NULL)
-            throw new Error("Can not call readContent twice on the same tag");
-        $stoppers = $this->getStoppers();
-        $parse_bb_state_before = $this->parser->bb_mode;
-        $this->parser->bb_mode &= $parse_bb;
+    abstract public function parse($arguments = []);
 
-        $result = $this->parser->parseArray($stoppers, $forbidden);
+    /**
+     * @return BbNode[]|null
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
 
-        $this->parser->bb_mode = $parse_bb_state_before;
-        $this->children = $result;
+    /**
+     * @param BbNode[] $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * ParseLight defaults to parse
+     *
+     * @return mixed
+     * @throws BbException
+     */
+    public function renderLight()
+    {
+        return $this->render();
+    }
+
+    abstract public function render();
+
+    /**
+     * render plain will strip html tags by default.
+     *
+     * @return string
+     */
+    public function renderPlain()
+    {
+        return strip_tags($this->render());
+    }
+
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
+    public function setArguments($arguments)
+    {
+        $this->arguments = $arguments;
     }
 
     /**
@@ -68,7 +124,8 @@ abstract class BbTag implements Node {
      * @param $arguments
      * @return string
      */
-    protected function readMainArgument($arguments) {
+    protected function readMainArgument($arguments)
+    {
         if (is_array($this->getTagName())) {
             foreach ($this->getTagName() as $tagName) {
                 if (isset($arguments[$tagName])) {
@@ -79,76 +136,36 @@ abstract class BbTag implements Node {
             return '';
         } elseif (isset($arguments[$this->getTagName()])) {
             return trim($arguments[$this->getTagName()]);
-        }
-        else {
+        } else {
             $this->readContent([], false);
             // parse_bb is disabled in readContent, so all nodes should be BbString
-            return trim(implode(array_map(function (Node $node) { return $node->render(); }, $this->children)));
+            return trim(implode(array_map(function (BbNode $node) {
+                return $node->render();
+            }, $this->children)));
         }
-    }
-
-    private function createStopper($tagName) {
-        return "[/$tagName]";
     }
 
     abstract public static function getTagName();
 
     /**
-     * @param array $arguments
-     * @return mixed
-     * @throws BbException
-     */
-    abstract public function parse($arguments = []);
-
-    abstract public function render();
-
-    /**
-     * @var Node[]|null
-     */
-    private $children;
-
-    /**
-     * @param Node[] $children
-     */
-    public function setChildren($children) {
-        $this->children = $children;
-    }
-
-    /**
-     * @return Node[]|null
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * ParseLight defaults to parse
+     * Read from the parser.
      *
-     * @return mixed
-     * @throws BbException
-     */
-    public function renderLight() {
-        return $this->render();
-    }
-
-    /**
-     * render plain will strip html tags by default.
+     * NOTE: this consumes the input string.
      *
-     * @return string
+     * @param string[] $forbidden Tag names that cannot exist in this tag.
      */
-    public function renderPlain() {
-        return strip_tags($this->render());
+    protected function readContent($forbidden = [], $parse_bb = true)
+    {
+        if ($this->content != NULL)
+            throw new Error("Can not call readContent twice on the same tag");
+        $stoppers = $this->getStoppers();
+        $parse_bb_state_before = $this->parser->bb_mode;
+        $this->parser->bb_mode &= $parse_bb;
+
+        $result = $this->parser->parseArray($stoppers, $forbidden);
+
+        $this->parser->bb_mode = $parse_bb_state_before;
+        $this->children = $result;
     }
 
     protected function getStoppers()
@@ -164,5 +181,10 @@ abstract class BbTag implements Node {
         }
         $stoppers[] = $this->createStopper('');
         return $stoppers;
+    }
+
+    private function createStopper($tagName)
+    {
+        return "[/$tagName]";
     }
 }

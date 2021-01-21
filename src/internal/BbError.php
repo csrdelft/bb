@@ -4,9 +4,9 @@
 namespace CsrDelft\bb\internal;
 
 
-use CsrDelft\bb\tag\Node;
+use CsrDelft\bb\tag\BbNode;
 
-class BbError implements Node
+class BbError implements BbNode
 {
     /**
      * @var string
@@ -51,5 +51,10 @@ class BbError implements Node
     public function renderLight()
     {
         return $this->render();
+    }
+
+    public function getArguments()
+    {
+        return [];
     }
 }
