@@ -26,7 +26,7 @@ class BbTableCell extends BbTag {
 			$style .= 'width: ' . (int)$this->width . 'px; ';
 		}
 
-		return '<td class="bb-tag-td" style="' . $style . '">' . $this->content . '</td>';
+		return '<td class="bb-tag-td" style="' . $style . '">' . $this->getContent() . '</td>';
 	}
 
     public function parse($arguments = [])

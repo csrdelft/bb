@@ -14,11 +14,11 @@ class BbItalic extends BbTag {
 	}
 
 	public function render() {
-		return '<em class="cursief bb-tag-i">' . $this->content . '</em>';
+		return '<em class="cursief bb-tag-i">' . $this->getContent() . '</em>';
 	}
 
 	public function renderPlain() {
-        return "_" . $this->content . "_";
+        return "_" . $this->getContent() . "_";
     }
 
     public function parse($arguments = [])

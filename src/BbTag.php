@@ -21,7 +21,7 @@ abstract class BbTag implements Node {
      * The content of the tag. Is empty at parse time. Can be filled by calling readContent()
      * @var string|null
      */
-    protected $content = null;
+    private $content = null;
 
     public function setParser(Parser $parser) {
         $this->parser = $parser;

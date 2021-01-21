@@ -16,6 +16,6 @@ class BbUnderline extends BbTag{
         $this->readContent();
     }
 	public function render() {
-		return '<ins class="onderstreept bb-tag-u">' . $this->content . '</ins>';
+		return '<ins class="onderstreept bb-tag-u">' . $this->getContent() . '</ins>';
 	}
 }

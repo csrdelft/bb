@@ -30,10 +30,10 @@ class BbCode extends BbTag {
     }
 
     public function renderPlain() {
-        return "$this->code\n\t" . str_replace("\n", "\n\t", $this->content);
+        return "$this->code\n\t" . str_replace("\n", "\n\t", $this->getContent());
     }
 
     public function render() {
-		return '<div class="bb-tag-code"><sub>' . $this->code . 'code:</sub><pre class="bbcode">' . $this->content . '</pre></div>';
+		return '<div class="bb-tag-code"><sub>' . $this->code . 'code:</sub><pre class="bbcode">' . $this->getContent() . '</pre></div>';
 	}
 }

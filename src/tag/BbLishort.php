@@ -19,11 +19,11 @@ class BbLishort extends BbTag {
 	}
 
 	public function render() {
-		return '<li class="bb-tag-li">' . $this->content . '</li>';
+		return '<li class="bb-tag-li">' . $this->getContent() . '</li>';
 	}
 
 	public function renderPlain() {
-        return " * " . $this->content;
+        return " * " . $this->getContent();
     }
 
     public function parse($arguments = [])

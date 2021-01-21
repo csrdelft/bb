@@ -31,5 +31,6 @@ class BbHorizontalRule extends BbTag {
 
     public function parse($arguments = [])
     {
+        // No arguments
     }
 }
