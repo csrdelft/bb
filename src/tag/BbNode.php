@@ -4,20 +4,25 @@
 namespace CsrDelft\bb\tag;
 
 
+use CsrDelft\bb\BbException;
+
 interface BbNode
 {
     /**
      * @return string
+     * @throws BbException
      */
     public function renderPlain();
 
     /**
      * @return string
+     * @throws BbException
      */
     public function renderLight();
 
     /**
      * @return string
+     * @throws BbException
      */
     public function render();
 

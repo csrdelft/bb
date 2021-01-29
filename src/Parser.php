@@ -198,12 +198,16 @@ abstract class Parser {
             if ($block->isAllowed()) {
                 $block->setContent($this->render($block->getChildren(), $mode));
 
-                if ($mode == "light") {
-                    $text .= $block->renderLight();
-                } elseif ($mode == "plain") {
-                    $text .= $block->renderPlain();
-                } else {
-                    $text .= $block->render();
+                try {
+                    if ($mode == "light") {
+                        $text .= $block->renderLight();
+                    } elseif ($mode == "plain") {
+                        $text .= $block->renderPlain();
+                    } else {
+                        $text .= $block->render();
+                    }
+                } catch (BbException $exception) {
+                    $text .= $exception->getMessage();
                 }
             } else {
                 $text .= '';
