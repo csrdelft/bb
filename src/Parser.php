@@ -195,10 +195,10 @@ abstract class Parser {
         $text = '';
 
         foreach ($blocks as $block) {
-            if ($block->isAllowed()) {
-                $block->setContent($this->render($block->getChildren(), $mode));
+            try {
+                if ($block->isAllowed()) {
+                    $block->setContent($this->render($block->getChildren(), $mode));
 
-                try {
                     if ($mode == "light") {
                         $text .= $block->renderLight();
                     } elseif ($mode == "plain") {
@@ -206,13 +206,13 @@ abstract class Parser {
                     } else {
                         $text .= $block->render();
                     }
-                } catch (BbException $exception) {
-                    $text .= $exception->getMessage();
+                } else {
+                    $text .= '';
                 }
-            } else {
-                $text .= '';
+            } catch (BbException $exception) {
+                $text .= $exception->getMessage();
             }
-    }
+        }
 
         return $text;
     }
