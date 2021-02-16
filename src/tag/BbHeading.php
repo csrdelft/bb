@@ -46,6 +46,10 @@ class BbHeading extends BbTag {
         }
     }
 
+    public function getHeadingLevel() {
+        return $this->heading_level;
+    }
+
 	public function render() {
 		$id = $this->id == null ? '' : ' id="' . htmlspecialchars($this->id) . '"';
 		$text = "<h$this->heading_level$id class=\"bb-tag-h\">{$this->getContent()}</h$this->heading_level>\n\n";

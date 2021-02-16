@@ -27,7 +27,7 @@ class BbList extends BbTag {
         if ($this->type == null) {
             return "<ul class=\"bb-tag-list\">{$this->getContent()}</ul>";
         } else {
-            return "<ol class=\"bb-tag-list\" \"type=\"$this->type\" >{$this->getContent()}</ol>";
+            return "<ol class=\"bb-tag-list\" type=\"$this->type\" >{$this->getContent()}</ol>";
         }
 
 	}
