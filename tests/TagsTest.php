@@ -1,18 +1,24 @@
 <?php
 
-use CsrDelft\bb\DefaultParser;
-use CsrDelft\bb\test\VarDriverPlatformIndependent;
-use PHPUnit\Framework\TestCase;
+namespace CsrDelft\BbBundle\Tests;
+
+use CsrDelft\BbBundle\Parser\Parser;
+use CsrDelft\BbBundle\Tests\Lib\VarDriverPlatformIndependent;
 use Spatie\Snapshots\MatchesSnapshots;
 
-final class TagsTest extends TestCase
+final class TagsTest extends BaseTestCase
 {
     use MatchesSnapshots;
-    protected $parser;
+
+    /**
+     * @var \CsrDelft\BbBundle\Bb|object|null
+     */
+    private $converter;
 
     public function setUp(): void
     {
-        $this->parser = new DefaultParser();
+        $container = $this->createContainer();
+        $this->converter = $container->get('bb.html');
     }
 
     public function testBold()
@@ -38,8 +44,8 @@ final class TagsTest extends TestCase
     }
 
     public function testDiv() {
-        $this->assertBbCodeMatchSnapshot("[div w=100 h=1000 class=wo style=color:blue; title=titel]dit is een [b]div[/b][br][/div]");
-        $this->assertBbCodeMatchSnapshot("[div w=100]dit is een [b]div[/b][br][/div]");
+        $this->assertBbCodeMatchSnapshot("[div w=100 h=1000 class=wo style=color:blue; title=titel]dit is een [b]div[/b][rn][/div]");
+        $this->assertBbCodeMatchSnapshot("[div w=100]dit is een [b]div[/b][rn][/div]");
     }
 
     public function testEmail() {
@@ -59,6 +65,7 @@ final class TagsTest extends TestCase
     }
 
     private function assertBbCodeMatchSnapshot($code) {
-        $this->assertMatchesSnapshot($this->parser->getHtml($code), new VarDriverPlatformIndependent());
+        $html = $this->converter->parse($code);
+        $this->assertMatchesSnapshot($html, new VarDriverPlatformIndependent());
     }
 }

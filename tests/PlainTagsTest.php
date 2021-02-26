@@ -1,22 +1,25 @@
 <?php
 
+namespace CsrDelft\BbBundle\Tests;
 
-use CsrDelft\bb\BbEnv;
-use CsrDelft\bb\DefaultParser;
-use CsrDelft\bb\test\VarDriverPlatformIndependent;
-use PHPUnit\Framework\TestCase;
+use CsrDelft\BbBundle\Parser\BbEnv;
+use CsrDelft\BbBundle\Parser\Parser;
+use CsrDelft\BbBundle\Tests\Lib\VarDriverPlatformIndependent;
 use Spatie\Snapshots\MatchesSnapshots;
 
-final class PlainTagsTest extends TestCase
+final class PlainTagsTest extends BaseTestCase
 {
     use MatchesSnapshots;
     protected $parser;
+    protected $renderer;
 
     public function setUp(): void
     {
         $env = new BbEnv();
         $env->mode = "plain";
-        $this->parser = new DefaultParser($env);
+        $container = $this->createContainer();
+        $this->parser = $container->get(Parser::class);
+        $this->renderer = $container->get('bb.render.plain');
     }
 
     public function testList() {
@@ -59,6 +62,7 @@ BB
     }
 
     private function assertBbCodeMatchSnapshot($code) {
-        $this->assertMatchesSnapshot($this->parser->getHtml($code), new VarDriverPlatformIndependent());
+        $html = $this->renderer->render($this->parser->parseString($code));
+        $this->assertMatchesSnapshot($html, new VarDriverPlatformIndependent());
     }
 }

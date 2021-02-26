@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="false" autoconfigure="true" autowire="true" />
+
+        <prototype namespace="CsrDelft\BbBundle\Parser\Tags\" resource="../../Parser/Tags/" autowire="true">
+        </prototype>
+        <prototype namespace="CsrDelft\BbBundle\Renderer\Html\" resource="../../Renderer/Html/">
+        </prototype>
+
+        <service id="CsrDelft\BbBundle\Parser\Parser" public="true">
+            <argument type="tagged_locator" tag="bb.tag" default-index-method="getTagName"/>
+        </service>
+
+        <service id="bb.render.html" class="CsrDelft\BbBundle\Renderer\GenericRenderer" public="true">
+            <argument type="tagged_locator" tag="bb.renderer.html" default-index-method="getTag"/>
+        </service>
+
+        <service id="bb.render.plain" class="CsrDelft\BbBundle\Renderer\GenericRenderer" public="true">
+            <argument type="tagged_locator" tag="bb.renderer.plain" default-index-method="getTag"/>
+        </service>
+
+        <service id="bb.html" class="CsrDelft\BbBundle\Bb" public="true">
+            <argument type="service" id="CsrDelft\BbBundle\Parser\Parser"/>
+            <argument type="service" id="bb.render.html"/>
+        </service>
+
+        <service id="bb.plain" class="CsrDelft\BbBundle\Bb" public="true">
+            <argument type="service" id="CsrDelft\BbBundle\Parser\Parser"/>
+            <argument type="service" id="bb.render.plain"/>
+        </service>
+    </services>
+</container>

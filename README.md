@@ -15,7 +15,7 @@ composer require csrdelft/bb
 Either use the `DefaultParser` or implement your own parser.
 
 ```php
-$parser = new \CsrDelft\bb\DefaultParser();
+$parser = new \CsrDelft\BbBundle\DefaultParser();
 
 echo $parser->getHtml('[h=1]Hello World[/h]');
 ```
@@ -53,7 +53,7 @@ The default tags available are:
 
 ### Custom tags
 
-Tags must extend the `\CsrDelft\bb\BbTag` class. Tags must implement the `parse($arguments)` and `getTagName()` methods.
+Tags must extend the `\CsrDelft\BbBundle\Parser\BbTag` class. Tags must implement the `parse($arguments)` and `getTagName()` methods.
 
 The `getTagName` method retuns a string or list of strings with the name(s) of this tag.
 
@@ -62,7 +62,7 @@ the tag, this content is parsed by the parser when it is received. The parser re
 found. `readContent` has an optional parameter for tags which are forbidden to be in this tag. For instance a `[sup]`
 tag cannot contain another sup tag or a sub tag.
 
-A tag has access to an environment, which is by default of type `CsrDelft\bb\BBenv` (can be overridden).
+A tag has access to an environment, which is by default of type `CsrDelft\BbBundle\Parser\Bbenv` (can be overridden).
 
 ### Custom tag example
 
