@@ -72,8 +72,16 @@ abstract class BbTag implements BbNode
         $this->children = $children;
     }
 
+    /**
+     * @return string
+     * @throws BbException
+     */
     public function getContent()
     {
+        if ($this->content === null) {
+            throw new BbException("Cannot read content during parsing");
+        }
+
         return $this->content;
     }
 
