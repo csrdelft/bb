@@ -39,7 +39,7 @@ abstract class Parser {
      * @var int Maximum number of tags to be parsed.
      *
      */
-    public $max_tags = 700;
+    public $max_tags = 2000;
     /**
      * Allow HTML in code
      *
