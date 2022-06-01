@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Voer tests uit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: 🔽 actions/checkout@v2
+
+      - name: 🔧 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.3
+          tools: composer:v2
+
+      - name: 🗃 Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-dev-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-dev-
+
+      - name: Install Composer packages
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install
+
+      - name: 🧪 Voer tests uit
+        run: composer test
