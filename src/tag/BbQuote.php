@@ -21,6 +21,10 @@ class BbQuote extends BbTag {
         return "> " . str_replace("\n", "\n> ", $this->getContent());
     }
 
+	public function renderPreview() {
+        return "\"" . str_replace("\n", "\n> ", $this->getContent()) . "\"";
+    }
+
     public function render($arguments = []) {
 		return '<div class="citaatContainer bb-tag-quote"><strong>Citaat</strong>' .
 			'<div class="citaat">' . $this->getContent() . '</div></div>';

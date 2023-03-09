@@ -8,7 +8,7 @@ namespace CsrDelft\bb;
  */
 class BbEnv {
     /**
-     * @var string One of default, light, plain
+     * @var string One of default, light, preview, plain
      */
     public $mode = "default";
     public $quote_level = 0;

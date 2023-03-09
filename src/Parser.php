@@ -165,7 +165,7 @@ abstract class Parser {
      * @return BbNode[]|null
      */
     public function parseString($bbcode) {
-        if ($this->env->mode !== "plain") {
+        if ($this->env->mode !== "preview" && $this->env->mode !== "plain") {
             $bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
         }
 
@@ -201,6 +201,8 @@ abstract class Parser {
 
                     if ($mode == "light") {
                         $text .= $block->renderLight();
+                    } elseif ($mode == "preview") {
+                        $text .= $block->renderPreview();
                     } elseif ($mode == "plain") {
                         $text .= $block->renderPlain();
                     } else {

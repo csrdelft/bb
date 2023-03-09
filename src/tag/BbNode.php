@@ -18,6 +18,12 @@ interface BbNode
      * @return string
      * @throws BbException
      */
+    public function renderPreview();
+
+    /**
+     * @return string
+     * @throws BbException
+     */
     public function renderLight();
 
     /**

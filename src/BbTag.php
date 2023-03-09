@@ -104,6 +104,16 @@ abstract class BbTag implements BbNode
     abstract public function render();
 
     /**
+     * render preview will strip html tags by default.
+     *
+     * @return string
+     */
+    public function renderPreview()
+    {
+        return strip_tags($this->render());
+    }
+
+    /**
      * render plain will strip html tags by default.
      *
      * @return string

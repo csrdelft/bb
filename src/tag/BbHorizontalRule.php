@@ -25,6 +25,10 @@ class BbHorizontalRule extends BbTag {
         return "---";
     }
 
+	public function renderPreview() {
+        return "---";
+    }
+
     public static function isParagraphLess() {
 		return true;
 	}

@@ -22,6 +22,10 @@ class BbNewline extends BbTag {
         return "\n";
     }
 
+	public function renderPreview() {
+        return " ";
+    }
+
     public function parse($arguments = [])
     {
         // No arguments

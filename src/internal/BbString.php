@@ -47,6 +47,11 @@ class BbString implements BbNode
         return $this->render();
     }
 
+    public function renderPreview()
+    {
+        return $this->render();
+    }
+
     public function renderLight()
     {
         return $this->render();

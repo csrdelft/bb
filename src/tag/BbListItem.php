@@ -25,6 +25,10 @@ class BbListItem extends BbTag{
         return " * " . $this->getContent();
     }
 
+	public function renderPreview() {
+        return " - " . $this->getContent();
+    }
+
     public function parse($arguments = [])
     {
         $this->readContent();
