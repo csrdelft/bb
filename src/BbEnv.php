@@ -1,6 +1,6 @@
 <?php
 
-namespace CsrDelft\bb;
+namespace CsrDelft\BbParser;
 
 /**
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>

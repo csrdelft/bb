@@ -1,8 +1,8 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
  * Slash me

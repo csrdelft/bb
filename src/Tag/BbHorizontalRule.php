@@ -1,34 +1,42 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
+ * Horizontal line
+ *
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
+ * @example [hr]
  */
-class BbNewline extends BbTag
+class BbHorizontalRule extends BbTag
 {
 
     public static function getTagName(): string
     {
-        return 'rn';
+        return 'hr';
     }
 
-    public function render($arguments = []): string
+    public function render(): string
     {
-        return '<br />';
+        return '<hr class="bb-tag-hr" />';
     }
 
     public function renderPlain(): string
     {
-        return "\n";
+        return "---";
     }
 
     public function renderPreview(): string
     {
-        return " ";
+        return "---";
+    }
+
+    public static function isParagraphLess(): bool
+    {
+        return true;
     }
 
     public function parse($arguments = []): void

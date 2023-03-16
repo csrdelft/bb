@@ -1,23 +1,22 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
- * List item (short)
+ * List item
  *
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
- * @example [lishort]First item
- * @example [*]Next item
+ * @example [li]Item[/li]
  */
-class BbLishort extends BbTag
+class BbListItem extends BbTag
 {
 
-    public static function getTagName(): array
+    public static function getTagName(): string
     {
-        return ['lishort', '*'];
+        return 'li';
     }
 
     public function render(): string
@@ -37,6 +36,6 @@ class BbLishort extends BbTag
 
     public function parse($arguments = []): void
     {
-        $this->setChildren($this->parser->parseArray(['[br]']));
+        $this->readContent();
     }
 }

@@ -1,29 +1,32 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
+ * Table row
+ *
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
+ * @example [tr]...
+ * @example [tr]...[/tr]
  */
-class BbNobold extends BbTag
+class BbTableRow extends BbTag
 {
+
     public static function getTagName(): string
     {
-        return 'nobold';
+        return 'tr';
     }
 
     public function render($arguments = []): string
     {
-        return $this->getContent();
+        return '<tr class="bb-tag-tr">' . $this->getContent() . '</tr>';
     }
 
     public function parse($arguments = []): void
     {
-        $this->env->nobold = true;
-        $this->readContent();
-        $this->env->nobold = false;
+        $this->readContent(['br']);
     }
 }

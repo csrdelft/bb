@@ -1,8 +1,8 @@
 <?php
 
-namespace CsrDelft\bb;
+namespace CsrDelft\BbParser;
 
-use CsrDelft\bb\tag\BbNode;
+use CsrDelft\BbParser\Tag\BbNode;
 use Error;
 use stdClass;
 

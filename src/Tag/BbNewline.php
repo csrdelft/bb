@@ -1,33 +1,38 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
  */
-class BbStrikethrough extends BbTag
+class BbNewline extends BbTag
 {
 
     public static function getTagName(): string
     {
-        return 's';
+        return 'rn';
     }
 
     public function render($arguments = []): string
     {
-        return '<del class="doorstreept bb-tag-s">' . $this->getContent() . '</del>';
+        return '<br />';
     }
 
     public function renderPlain(): string
     {
-        return "~" . $this->getContent() . "~";
+        return "\n";
+    }
+
+    public function renderPreview(): string
+    {
+        return " ";
     }
 
     public function parse($arguments = []): void
     {
-        $this->readContent(['s']);
+        // No arguments
     }
 }

@@ -1,32 +1,32 @@
 <?php
 
-namespace CsrDelft\bb;
+namespace CsrDelft\BbParser;
 
-use CsrDelft\bb\tag\BbBold;
-use CsrDelft\bb\tag\BbClear;
-use CsrDelft\bb\tag\BbCode;
-use CsrDelft\bb\tag\BbCommentaar;
-use CsrDelft\bb\tag\BbDiv;
-use CsrDelft\bb\tag\BbEmail;
-use CsrDelft\bb\tag\BbHeading;
-use CsrDelft\bb\tag\BbHorizontalRule;
-use CsrDelft\bb\tag\BbItalic;
-use CsrDelft\bb\tag\BbLeet;
-use CsrDelft\bb\tag\BbLishort;
-use CsrDelft\bb\tag\BbList;
-use CsrDelft\bb\tag\BbListItem;
-use CsrDelft\bb\tag\BbMe;
-use CsrDelft\bb\tag\BbNewline;
-use CsrDelft\bb\tag\BbNobold;
-use CsrDelft\bb\tag\BbQuote;
-use CsrDelft\bb\tag\BbStrikethrough;
-use CsrDelft\bb\tag\BbSubscript;
-use CsrDelft\bb\tag\BbSuperscript;
-use CsrDelft\bb\tag\BbTable;
-use CsrDelft\bb\tag\BbTableCell;
-use CsrDelft\bb\tag\BbTableHeader;
-use CsrDelft\bb\tag\BbTableRow;
-use CsrDelft\bb\tag\BbUnderline;
+use CsrDelft\BbParser\Tag\BbBold;
+use CsrDelft\BbParser\Tag\BbClear;
+use CsrDelft\BbParser\Tag\BbCode;
+use CsrDelft\BbParser\Tag\BbCommentaar;
+use CsrDelft\BbParser\Tag\BbDiv;
+use CsrDelft\BbParser\Tag\BbEmail;
+use CsrDelft\BbParser\Tag\BbHeading;
+use CsrDelft\BbParser\Tag\BbHorizontalRule;
+use CsrDelft\BbParser\Tag\BbItalic;
+use CsrDelft\BbParser\Tag\BbLeet;
+use CsrDelft\BbParser\Tag\BbLishort;
+use CsrDelft\BbParser\Tag\BbList;
+use CsrDelft\BbParser\Tag\BbListItem;
+use CsrDelft\BbParser\Tag\BbMe;
+use CsrDelft\BbParser\Tag\BbNewline;
+use CsrDelft\BbParser\Tag\BbNobold;
+use CsrDelft\BbParser\Tag\BbQuote;
+use CsrDelft\BbParser\Tag\BbStrikethrough;
+use CsrDelft\BbParser\Tag\BbSubscript;
+use CsrDelft\BbParser\Tag\BbSuperscript;
+use CsrDelft\BbParser\Tag\BbTable;
+use CsrDelft\BbParser\Tag\BbTableCell;
+use CsrDelft\BbParser\Tag\BbTableHeader;
+use CsrDelft\BbParser\Tag\BbTableRow;
+use CsrDelft\BbParser\Tag\BbUnderline;
 
 /**
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>

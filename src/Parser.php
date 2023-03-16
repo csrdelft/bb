@@ -1,10 +1,10 @@
 <?php
 
-namespace CsrDelft\bb;
+namespace CsrDelft\BbParser;
 
-use CsrDelft\bb\internal\BbError;
-use CsrDelft\bb\internal\BbString;
-use CsrDelft\bb\tag\BbNode;
+use CsrDelft\BbParser\Internal\BbError;
+use CsrDelft\BbParser\Internal\BbString;
+use CsrDelft\BbParser\Tag\BbNode;
 
 /**
  * Main BB-code Parser file

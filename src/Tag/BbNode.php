@@ -1,10 +1,10 @@
 <?php
 
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
 
-use CsrDelft\bb\BbException;
+use CsrDelft\BbParser\BbException;
 
 interface BbNode
 {

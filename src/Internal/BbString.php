@@ -1,9 +1,9 @@
 <?php
 
 
-namespace CsrDelft\bb\internal;
+namespace CsrDelft\BbParser\Internal;
 
-use CsrDelft\bb\tag\BbNode;
+use CsrDelft\BbParser\Tag\BbNode;
 
 class BbString implements BbNode
 {

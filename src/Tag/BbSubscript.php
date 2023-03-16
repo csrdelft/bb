@@ -1,27 +1,27 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
- * Superscript
+ * Subscript
  *
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
- * @example [sup]Superscript[/sup]
+ * @example [sub]Subscript[/sub]
  */
-class BbSuperscript extends BbTag
+class BbSubscript extends BbTag
 {
 
     public static function getTagName(): string
     {
-        return 'sup';
+        return 'sub';
     }
 
     public function render($arguments = []): string
     {
-        return '<sup class="bb-tag-sup">' . $this->getContent() . '</sup>';
+        return '<sub class="bb-tag-sub">' . $this->getContent() . '</sub>';
     }
 
     public function parse($arguments = []): void

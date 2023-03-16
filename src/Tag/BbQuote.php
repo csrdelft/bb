@@ -1,9 +1,9 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
-use CsrDelft\bb\internal\BbString;
+use CsrDelft\BbParser\BbTag;
+use CsrDelft\BbParser\Internal\BbString;
 
 /**
  * Quote

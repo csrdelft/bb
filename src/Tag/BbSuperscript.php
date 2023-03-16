@@ -1,30 +1,31 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\BbParser\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\BbParser\BbTag;
 
 /**
- * Table header cell
+ * Superscript
  *
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
- * @example [th]...[/th]
+ * @example [sup]Superscript[/sup]
  */
-class BbTableHeader extends BbTag
+class BbSuperscript extends BbTag
 {
+
     public static function getTagName(): string
     {
-        return 'th';
+        return 'sup';
     }
 
     public function render($arguments = []): string
     {
-        return '<th class="bb-tag-th">' . $this->getContent() . '</th>';
+        return '<sup class="bb-tag-sup">' . $this->getContent() . '</sup>';
     }
 
     public function parse($arguments = []): void
     {
-        $this->readContent();
+        $this->readContent(['sub', 'sup']);
     }
 }
