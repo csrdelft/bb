@@ -11,17 +11,20 @@ use CsrDelft\bb\BbTag;
  * @since 27/03/2019
  * @example [sub]Subscript[/sub]
  */
-class BbSubscript extends BbTag {
+class BbSubscript extends BbTag
+{
 
-	public static function getTagName() {
-		return 'sub';
-	}
+    public static function getTagName(): string
+    {
+        return 'sub';
+    }
 
-	public function render($arguments = []) {
-		return '<sub class="bb-tag-sub">' . $this->getContent() . '</sub>';
-	}
+    public function render($arguments = []): string
+    {
+        return '<sub class="bb-tag-sub">' . $this->getContent() . '</sub>';
+    }
 
-    public function parse($arguments = [])
+    public function parse($arguments = []): void
     {
         $this->readContent(['sub', 'sup']);
     }

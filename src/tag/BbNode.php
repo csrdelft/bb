@@ -9,47 +9,30 @@ use CsrDelft\bb\BbException;
 interface BbNode
 {
     /**
-     * @return string
      * @throws BbException
      */
-    public function renderPlain();
+    public function renderPlain(): string;
 
     /**
-     * @return string
      * @throws BbException
      */
-    public function renderPreview();
+    public function renderPreview(): string;
 
     /**
-     * @return string
      * @throws BbException
      */
-    public function renderLight();
+    public function renderLight(): string;
 
     /**
-     * @return string
      * @throws BbException
      */
-    public function render();
+    public function render(): string;
 
     /**
-     * @return BbNode[]
+     * @return BbNode[]|null
      */
-    public function getChildren();
-
-    /**
-     * @param string $content
-     * @return void
-     */
-    public function setContent($content);
-
-    /**
-     * @return void
-     */
-    public function getContent();
-
-    /**
-     * @return bool
-     */
-    public function isAllowed();
+    public function getChildren(): ?array;
+    public function setContent(string $content): void;
+    public function getContent(): string;
+    public function isAllowed(): bool;
 }

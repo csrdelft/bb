@@ -4,6 +4,7 @@
 namespace CsrDelft\bb\internal;
 
 
+use CsrDelft\bb\BbException;
 use CsrDelft\bb\tag\BbNode;
 
 class BbError implements BbNode
@@ -18,42 +19,45 @@ class BbError implements BbNode
         $this->error = $error;
     }
 
-    public function isAllowed()
+    public function isAllowed(): bool
     {
         return true;
     }
 
-    public function render()
+    public function render(): string
     {
         return $this->error;
     }
 
-    public function getChildren()
+    public function getChildren(): array
     {
         return [];
     }
 
-    public function setContent($content)
+    public function setContent($content): void
     {
         // Nop
     }
 
-    public function getContent()
+    /**
+     * @throws BbException
+     */
+    public function getContent(): string
     {
-        return null;
+        throw new BbException("Error heeft geen content");
     }
 
-    public function renderPlain()
-    {
-        return $this->render();
-    }
-
-    public function renderPreview()
+    public function renderPlain(): string
     {
         return $this->render();
     }
 
-    public function renderLight()
+    public function renderPreview(): string
+    {
+        return $this->render();
+    }
+
+    public function renderLight(): string
     {
         return $this->render();
     }

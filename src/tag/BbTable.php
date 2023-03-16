@@ -7,35 +7,40 @@ use CsrDelft\bb\BbTag;
 /**
  * Table
  *
- * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
- * @since 27/03/2019
  * @param string optional $arguments['border'] CSS border style
  * @param string optional $arguments['color'] CSS color style
  * @param string optional $arguments['background-color'] CSS background-color style
  * @param string optional $arguments['border-collapse'] CSS border-collapse style
  *
+ * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
+ * @since 27/03/2019
  * @example [table border=1px_solid_blue]...[/table]
  */
-class BbTable extends BbTag {
+class BbTable extends BbTag
+{
     private $styleProperties = [];
-	public static function getTagName() {
-		return 'table';
-	}
 
-	public function render($arguments = []) {
-		$style = '';
-		foreach ($this->styleProperties as $name => $value) {
-		    $style .= $name . ': ' . str_replace('_', ' ', htmlspecialchars($value)) . '; ';
-		}
+    public static function getTagName(): string
+    {
+        return 'table';
+    }
 
-		return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->getContent() . '</table>';
-	}
+    public function render($arguments = []): string
+    {
+        $style = '';
+        foreach ($this->styleProperties as $name => $value) {
+            $style .= $name . ': ' . str_replace('_', ' ', htmlspecialchars($value)) . '; ';
+        }
 
-	public static function isParagraphLess() {
-		return true;
-	}
+        return '<table class="bb-table bb-tag-table" style="' . $style . '">' . $this->getContent() . '</table>';
+    }
 
-    public function parse($arguments = [])
+    public static function isParagraphLess(): bool
+    {
+        return true;
+    }
+
+    public function parse($arguments = []): void
     {
         $this->readContent(['br']);
         $tableProperties = array('border', 'color', 'background-color', 'border-collapse');

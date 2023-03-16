@@ -124,7 +124,7 @@ abstract class Parser {
 
         $this->env = $env;
 
-        foreach ($this->tags as $tag) {
+        foreach ($this->getTags() as $tag) {
             if (is_array($tag::getTagName())) {
                 foreach ($tag::getTagName() as $tagName) {
                     $this->registry[$tagName] = $tag;
@@ -138,6 +138,8 @@ abstract class Parser {
             }
         }
     }
+
+    public abstract function getTags();
 
     /**
      * Transform BB code to HTML code.
@@ -469,12 +471,11 @@ abstract class Parser {
      * return arguments of a tag in array-form
      *
      * When supplied with a full tag ([h=5] or [img=blah.gif w=5 h=10]), return array with argument/value as key/value pairs
-     * @return array
+     * @return string[]
      * @param string $fullTag The full tag to get the arguments from
      */
-    private function getArguments($fullTag) {
-
-        $argument_array = Array();
+    private function getArguments(string $fullTag): array {
+        $argument_array = [];
         $tag = substr($fullTag, 1, strlen($fullTag) - 2);
         $argList = explode(' ', $tag);
         $i = 0;
@@ -504,7 +505,8 @@ abstract class Parser {
         return $argument_array;
     }
 
-    protected function createTagInstance(string $tag, Parser $parser, $env) {
+    protected function createTagInstance(string $tag, Parser $parser, $env): BbTag
+    {
         /** @var BbTag $tagInstance */
         $tagInstance = new $tag($parser, $env);
         $tagInstance->setParser($parser);

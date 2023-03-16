@@ -17,42 +17,42 @@ class BbString implements BbNode
         $this->string = $string;
     }
 
-    public function isAllowed()
+    public function isAllowed(): bool
     {
         return true;
     }
 
-    public function render()
+    public function render(): string
     {
         return $this->string;
     }
 
-    public function getChildren()
+    public function getChildren(): array
     {
         return [];
     }
 
-    public function setContent($content)
+    public function setContent($content): void
     {
         // Nop
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->string;
     }
 
-    public function renderPlain()
+    public function renderPlain(): string
     {
         return $this->render();
     }
 
-    public function renderPreview()
+    public function renderPreview(): string
     {
         return $this->render();
     }
 
-    public function renderLight()
+    public function renderLight(): string
     {
         return $this->render();
     }

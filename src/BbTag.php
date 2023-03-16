@@ -44,7 +44,7 @@ abstract class BbTag implements BbNode
         $this->env = $env;
     }
 
-    public function isAllowed()
+    public function isAllowed(): bool
     {
         return true;
     }
@@ -54,12 +54,12 @@ abstract class BbTag implements BbNode
      * @return mixed
      * @throws BbException
      */
-    abstract public function parse($arguments = []);
+    abstract public function parse(array $arguments = []): void;
 
     /**
      * @return BbNode[]|null
      */
-    public function getChildren()
+    public function getChildren(): ?array
     {
         return $this->children;
     }
@@ -76,7 +76,7 @@ abstract class BbTag implements BbNode
      * @return string
      * @throws BbException
      */
-    public function getContent()
+    public function getContent(): string
     {
         if ($this->content === null) {
             throw new BbException("Cannot read content during parsing");
@@ -85,7 +85,7 @@ abstract class BbTag implements BbNode
         return $this->content;
     }
 
-    public function setContent($content)
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -93,22 +93,21 @@ abstract class BbTag implements BbNode
     /**
      * ParseLight defaults to parse
      *
-     * @return mixed
      * @throws BbException
      */
-    public function renderLight()
+    public function renderLight(): string
     {
         return $this->render();
     }
 
-    abstract public function render();
+    abstract public function render(): string;
 
     /**
      * render preview will strip html tags by default.
      *
      * @return string
      */
-    public function renderPreview()
+    public function renderPreview(): string
     {
         return strip_tags($this->render());
     }
@@ -118,7 +117,7 @@ abstract class BbTag implements BbNode
      *
      * @return string
      */
-    public function renderPlain()
+    public function renderPlain(): string
     {
         return strip_tags($this->render());
     }
@@ -128,10 +127,10 @@ abstract class BbTag implements BbNode
      *
      * [tag=123] or [tag]123[/tag]
      *
-     * @param $arguments
+     * @param string[] $arguments
      * @return string
      */
-    protected function readMainArgument($arguments)
+    protected function readMainArgument(array $arguments): string
     {
         if (is_array($this->getTagName())) {
             foreach ($this->getTagName() as $tagName) {
@@ -152,6 +151,9 @@ abstract class BbTag implements BbNode
         }
     }
 
+    /**
+     * @return string|string[]
+     */
     abstract public static function getTagName();
 
     /**
@@ -161,10 +163,11 @@ abstract class BbTag implements BbNode
      *
      * @param string[] $forbidden Tag names that cannot exist in this tag.
      */
-    protected function readContent($forbidden = [], $parse_bb = true)
+    protected function readContent(array $forbidden = [], bool $parse_bb = true): void
     {
-        if ($this->content != NULL)
+        if ($this->content != null) {
             throw new Error("Can not call readContent twice on the same tag");
+        }
         $stoppers = $this->getStoppers();
         $parse_bb_state_before = $this->parser->bb_mode;
         $this->parser->bb_mode &= $parse_bb;
@@ -175,7 +178,10 @@ abstract class BbTag implements BbNode
         $this->children = $result;
     }
 
-    protected function getStoppers()
+    /**
+     * @return string[]
+     */
+    protected function getStoppers(): array
     {
         $stoppers = [];
 
@@ -190,7 +196,7 @@ abstract class BbTag implements BbNode
         return $stoppers;
     }
 
-    private function createStopper($tagName)
+    private function createStopper($tagName): string
     {
         return "[/$tagName]";
     }

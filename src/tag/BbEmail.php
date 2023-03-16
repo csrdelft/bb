@@ -15,17 +15,20 @@ use CsrDelft\bb\BbTag;
  * @example [email]noreply@csrdelft.nl[/email]
  * @example [email=noreply@csrdelft.nl spamsafe]text[/email]
  */
-class BbEmail extends BbTag {
+class BbEmail extends BbTag
+{
 
     private $text;
     private $email;
     private $mailto;
 
-    public static function getTagName() {
+    public static function getTagName(): string
+    {
         return 'email';
     }
 
-    public function render($arguments = []) {
+    public function render($arguments = []): string
+    {
         if (!empty($this->email)) {
             $html = '<a class="bb-tag-email" href="mailto:' . $this->email . '">' . $this->text . '</a>';
 
@@ -39,7 +42,8 @@ class BbEmail extends BbTag {
         return $html;
     }
 
-    public function renderPlain() {
+    public function renderPlain(): string
+    {
         return $this->text . " <" . $this->email . ">";
     }
 
@@ -49,7 +53,8 @@ class BbEmail extends BbTag {
      *
      * @return bool
      */
-    function emailLike($email) {
+    private function emailLike($email): bool
+    {
         if (empty($email)) {
             return false;
         }
@@ -60,7 +65,7 @@ class BbEmail extends BbTag {
      * @param array $arguments
      * @return array
      */
-    public function parse($arguments = [])
+    public function parse($arguments = []): void
     {
         $this->mailto = array_shift($this->parser->parseArray);
         $endtag = array_shift($this->parser->parseArray);

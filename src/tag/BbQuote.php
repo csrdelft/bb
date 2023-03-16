@@ -12,29 +12,35 @@ use CsrDelft\bb\internal\BbString;
  * @since 27/03/2019
  * @example [quote]Citaat[/quote]
  */
-class BbQuote extends BbTag {
-	public static function getTagName() {
-		return 'quote';
-	}
+class BbQuote extends BbTag
+{
+    public static function getTagName(): string
+    {
+        return 'quote';
+    }
 
-	public function renderPlain() {
+    public function renderPlain(): string
+    {
         return "> " . str_replace("\n", "\n> ", $this->getContent());
     }
 
-	public function renderPreview() {
+    public function renderPreview(): string
+    {
         return "\"" . str_replace("\n", "\n> ", $this->getContent()) . "\"";
     }
 
-    public function render($arguments = []) {
-		return '<div class="citaatContainer bb-tag-quote"><strong>Citaat</strong>' .
-			'<div class="citaat">' . $this->getContent() . '</div></div>';
-	}
+    public function render($arguments = []): string
+    {
+        return '<div class="citaatContainer bb-tag-quote"><strong>Citaat</strong>' .
+            '<div class="citaat">' . $this->getContent() . '</div></div>';
+    }
 
-	public static function isParagraphLess() {
-		return true;
-	}
+    public static function isParagraphLess(): bool
+    {
+        return true;
+    }
 
-    public function parse($arguments = [])
+    public function parse($arguments = []): void
     {
         if ($this->env->quote_level == 0) {
             $this->env->quote_level = 1;

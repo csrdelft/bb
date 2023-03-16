@@ -12,25 +12,30 @@ use CsrDelft\bb\BbTag;
  * @example [lishort]First item
  * @example [*]Next item
  */
-class BbLishort extends BbTag {
+class BbLishort extends BbTag
+{
 
-	public static function getTagName() {
-		return ['lishort', '*'];
-	}
+    public static function getTagName(): array
+    {
+        return ['lishort', '*'];
+    }
 
-	public function render() {
-		return '<li class="bb-tag-li">' . $this->getContent() . '</li>';
-	}
+    public function render(): string
+    {
+        return '<li class="bb-tag-li">' . $this->getContent() . '</li>';
+    }
 
-	public function renderPlain() {
+    public function renderPlain(): string
+    {
         return " * " . $this->getContent();
     }
 
-	public function renderPreview() {
+    public function renderPreview(): string
+    {
         return " - " . $this->getContent();
     }
 
-    public function parse($arguments = [])
+    public function parse($arguments = []): void
     {
         $this->setChildren($this->parser->parseArray(['[br]']));
     }

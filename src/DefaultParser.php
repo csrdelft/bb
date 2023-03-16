@@ -1,4 +1,5 @@
 <?php
+
 namespace CsrDelft\bb;
 
 use CsrDelft\bb\tag\BbBold;
@@ -31,32 +32,36 @@ use CsrDelft\bb\tag\BbUnderline;
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 06/07/2019
  */
-final class DefaultParser extends Parser {
-    protected $tags = [
-        BbBold::class,
-        BbClear::class,
-        BbCode::class,
-        BbCommentaar::class,
-        BbDiv::class,
-        BbEmail::class,
-        BbHeading::class,
-        BbHorizontalRule::class,
-        BbItalic::class,
-        BbLeet::class,
-        BbLishort::class,
-        BbListItem::class,
-        BbMe::class,
-        BbNewline::class,
-        BbNobold::class,
-        BbQuote::class,
-        BbStrikethrough::class,
-        BbSubscript::class,
-        BbSuperscript::class,
-        BbTable::class,
-        BbTableCell::class,
-        BbTableHeader::class,
-        BbTableRow::class,
-        BbList::class,
-        BbUnderline::class,
-    ];
+final class DefaultParser extends Parser
+{
+    public function getTags()
+    {
+        return [
+            BbBold::class,
+            BbClear::class,
+            BbCode::class,
+            BbCommentaar::class,
+            BbDiv::class,
+            BbEmail::class,
+            BbHeading::class,
+            BbHorizontalRule::class,
+            BbItalic::class,
+            BbLeet::class,
+            BbLishort::class,
+            BbListItem::class,
+            BbMe::class,
+            BbNewline::class,
+            BbNobold::class,
+            BbQuote::class,
+            BbStrikethrough::class,
+            BbSubscript::class,
+            BbSuperscript::class,
+            BbTable::class,
+            BbTableCell::class,
+            BbTableHeader::class,
+            BbTableRow::class,
+            BbList::class,
+            BbUnderline::class,
+        ];
+    }
 }

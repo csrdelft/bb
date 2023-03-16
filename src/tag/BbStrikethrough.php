@@ -8,21 +8,25 @@ use CsrDelft\bb\BbTag;
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
  */
-class BbStrikethrough extends BbTag {
+class BbStrikethrough extends BbTag
+{
 
-	public static function getTagName() {
-		return 's';
-	}
+    public static function getTagName(): string
+    {
+        return 's';
+    }
 
-	public function render($arguments = []) {
-		return '<del class="doorstreept bb-tag-s">' . $this->getContent() . '</del>';
-	}
+    public function render($arguments = []): string
+    {
+        return '<del class="doorstreept bb-tag-s">' . $this->getContent() . '</del>';
+    }
 
-	public function renderPlain() {
+    public function renderPlain(): string
+    {
         return "~" . $this->getContent() . "~";
     }
 
-    public function parse($arguments = [])
+    public function parse($arguments = []): void
     {
         $this->readContent(['s']);
     }
