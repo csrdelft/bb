@@ -1,17 +1,18 @@
 <?php
 
-namespace CsrDelft\bb;
+namespace CsrDelft\Lib\Bb;
 
-use CsrDelft\bb\internal\BbError;
-use CsrDelft\bb\internal\BbString;
-use CsrDelft\bb\tag\BbNode;
+use CsrDelft\Lib\Bb\Internal\BbError;
+use CsrDelft\Lib\Bb\Internal\BbString;
+use CsrDelft\Lib\Bb\Tag\BbNode;
 
 /**
  * Main BB-code Parser file
  *
  * This file is based on the eamBBParser class of the eamBBParser project.
  */
-abstract class Parser {
+abstract class Parser
+{
     const BR_TAG = '[br]';
     const TAG_NOHTML_OPEN = '[nohtml]';
     const TAG_HTML_CLOSE = '[/html]';
@@ -35,25 +36,27 @@ abstract class Parser {
     /**
      * Maximum allowed number of tags
      *
-     * When having trouble with users trying to get down the server by using tons of tags, lower this limit. Open and closing tags will count towards max.
+     * When having trouble with users trying to get down the server by using tons of tags, lower this limit.
+     * Open and closing tags will count towards max.
      * @var int Maximum number of tags to be parsed.
      *
      */
-    public $max_tags = 2000;
+    public $maxTags = 2000;
     /**
      * Allow HTML in code
      *
      * Whether or not to allow HTMl code. Default is false. When set to false, [html] tag won't do anything.
      * @var boolean
      */
-    public $allow_html = false;
+    public $allowHtml = false;
     /**
      * Accept html by default
      *
-     * When set to true, html will be accepted. When set to false, only html within [html] tags will be accepted. This setting only has effect when $allow_html is set to true.
+     * When set to true, html will be accepted. When set to false, only html within [html] tags will be accepted.
+     * This setting only has effect when $allow_html is set to true.
      * @var boolean
      */
-    public $standard_html = false;
+    public $standardHtml = false;
     /**
      * It's possible with the ubboff tag to switch processing off.
      *
@@ -62,28 +65,19 @@ abstract class Parser {
      * When we're in a [ubboff] block, this will be false. Otherwise true.
      * Also used by [commentaar] and [prive]
      */
-    public $bb_mode = true;
+    public $bbMode = true;
     /**
      * Enable paragraph mode
      *
-     * When set to true, the parser will try to use &lt;p&gt; tags around text, and remove unnecessary br's. <b>This is an experimental feature! Please let me know if you find strange behaviour!</b>
+     * When set to true, the parser will try to use &lt;p&gt; tags around text, and remove unnecessary br's.
+     * <b>This is an experimental feature! Please let me know if you find strange behaviour!</b>
      * @var boolean
      */
-    protected $paragraph_mode = false;
-    /**
-     * List of possible tags.
-     *
-     * @var array
-     */
-    protected $tags = [];
-    /**
-     * Storage for BB code
-     */
-    private $bbcode;
+    protected $paragraphMode = false;
     /**
      * Storage for outgoing HTML
      */
-    private $HTML;
+    private $html;
     /**
      * How deep are we; e.g. How many open tags?
      */
@@ -91,40 +85,42 @@ abstract class Parser {
     /**
      * Amount of tags already parsed
      */
-    private $tags_counted = 0;
+    private $tagsCounted = 0;
     /**
      * Keep track of open paragraphs
      */
-    private $paragraph_open = false;
+    private $paragraphOpen = false;
     /**
      * Tags that do not need to be encapsulated in paragraphs, filled in constructor.
      */
-    private $paragraphless_tags = ['br'];
+    private $paragraphlessTags = ['br'];
     /**
      * Keep track of current paragraph-required-status
      *
-     * When we're in a tag that does not need to be encapsulate in a paragraph, this var will be false, otherwise true. Works only when in paragraph mode.
+     * When we're in a tag that does not need to be encapsulate in a paragraph, this var will be false, otherwise true.
+     * Works only when in paragraph mode.
      */
-    private $paragraph_required = true;
+    private $paragraphRequired = true;
     /**
      * Environment
      *
      * @var BbEnv
      */
-    private $env = [];
+    private $env = null;
     /**
-     * @var BbTag[]
+     * @var BbTag[]|string[]
      */
     private $registry = [];
 
-    public function __construct($env = null) {
+    public function __construct($env = null)
+    {
         if (is_null($env)) {
             $env = new BbEnv();
         }
 
         $this->env = $env;
 
-        foreach ($this->tags as $tag) {
+        foreach ($this->getTags() as $tag) {
             if (is_array($tag::getTagName())) {
                 foreach ($tag::getTagName() as $tagName) {
                     $this->registry[$tagName] = $tag;
@@ -134,10 +130,20 @@ abstract class Parser {
             }
 
             if ($tag::isParagraphLess()) {
-                $this->paragraphless_tags[] = $tag::getTagName();
+                $this->paragraphlessTags[] = $tag::getTagName();
             }
         }
     }
+
+    /**
+     * @param BbEnv|mixed|null $env
+     */
+    public function setEnv($env): void
+    {
+        $this->env = $env;
+    }
+
+    abstract public function getTags();
 
     /**
      * Transform BB code to HTML code.
@@ -146,7 +152,8 @@ abstract class Parser {
      * @param string $bbcode BB code to be transformed
      * @return string HTML
      */
-    public function getHtml($bbcode) {
+    public function getHtml($bbcode)
+    {
         if (strlen($bbcode) == 0) {
             return null;
         }
@@ -155,22 +162,23 @@ abstract class Parser {
 
         $html = $this->render($blocks, $this->env->mode);
 
-        $this->HTML = str_replace(self::BR_TAG, "<br />\n", $html);
+        $this->html = str_replace(self::BR_TAG, "<br />\n", $html);
 
-        return $this->HTML;
+        return $this->html;
     }
 
     /**
      * @param string $bbcode
      * @return BbNode[]|null
      */
-    public function parseString($bbcode) {
+    public function parseString($bbcode)
+    {
         if ($this->env->mode !== "preview" && $this->env->mode !== "plain") {
             $bbcode = str_replace(array("\r\n", "\n"), self::BR_TAG, $bbcode);
         }
 
         // Create the parsearray with the buildarray function, pretty nice ;)
-        $this->tags_counted = 0;
+        $this->tagsCounted = 0;
         $this->parseArray = $this->tokenize($bbcode);
 
         // Fix html rights
@@ -219,7 +227,8 @@ abstract class Parser {
         return $text;
     }
 
-    private function tokenize($str) {
+    private function tokenize($str)
+    {
         $tokens = "[]";
 
         $index = 0;
@@ -246,7 +255,7 @@ abstract class Parser {
 
             $prevIndex = $index;
 
-            if ($numTags > $this->max_tags) {
+            if ($numTags > $this->maxTags) {
                 return ['<b style="color:red">[max # of tags reached, quitting splitting procedure]</b>' . $str];
             }
         }
@@ -263,11 +272,12 @@ abstract class Parser {
     /**
      * Set [html] and [nohtml] tags according to settings
      */
-    private function htmlFix() {
+    private function htmlFix()
+    {
         // First, check if html is allowed
-        if (!$this->allow_html) {
+        if (!$this->allowHtml) {
             $html = false;
-        } elseif ($this->standard_html) {
+        } elseif ($this->standardHtml) {
             $html = true;
         } else {
             $html = false;
@@ -282,7 +292,7 @@ abstract class Parser {
                     break;
                 case self::TAG_HTML_OPEN:
                 case self::TAG_NOHTML_CLOSE:
-                    if ($this->allow_html) {
+                    if ($this->allowHtml) {
                         $html = true;
                     }
                     break;
@@ -310,64 +320,58 @@ abstract class Parser {
      * @param array $forbidden
      * @return BbNode[]
      */
-    public function parseArray($stoppers = [], $forbidden = []) {
-
+    public function parseArray($stoppers = [], $forbidden = [])
+    {
         if (!is_array($this->parseArray)) { // Well, nothing to parse
             return null;
         }
         $blocks = [];
 
-        $forbidden_aantal_open = 0;
+        $forbiddenAantalOpen = 0;
         while ($entry = array_shift($this->parseArray)) {
-
             if (in_array($entry, $stoppers)) {
-
-                if ($forbidden_aantal_open == 0) {
-
+                if ($forbiddenAantalOpen == 0) {
                     $this->level--;
                     return $blocks;
                 } else {
-                    $forbidden_aantal_open--;
+                    $forbiddenAantalOpen--;
                     $blocks[] = new BbString($entry);
                 }
             } else {
-
                 $tag = $this->getTag($entry);
 
                 if ($tag && in_array($tag, $forbidden)) {
                     if ($tag != 'br') {
-                        $forbidden_aantal_open++;
+                        $forbiddenAantalOpen++;
                     } else {
                         $entry = "\n";
                     }
                 }
 
-                $isOpenTag = substr($entry, 0, 1) == '[' && substr($entry, strlen($entry) - 1, 1) == ']' && substr($entry, 1, 1) != '/';
+                $isOpenTag = $this->isOpenTag($entry);
                 $isAllowed = !in_array($tag, $forbidden) && !isset($forbidden['all']);
                 $exists = isset($this->registry[$tag]);
 
-                if ($this->bb_mode && $isOpenTag && $exists && $isAllowed) {
+                if ($this->bbMode && $isOpenTag && $exists && $isAllowed) {
                     $tagInstance = $this->createTagInstance($this->registry[$tag], $this, $this->env);
 
                     $arguments = $this->getArguments($entry);
 
-                    if ($this->paragraph_mode) {
+                    if ($this->paragraphMode) {
                         // Add paragraphs if necessary
 
-                        $paragraph_setting_modified = false;
-                        if (!$this->paragraph_open && !in_array($tag, $this->paragraphless_tags) && $this->level == 0) {  // Only encaps when level = 0, we don't want paragraphs inside lists or stuff
+                        $paragraphSettingModified = false;
+                        if (!$this->paragraphOpen && !in_array($tag, $this->paragraphlessTags) && $this->level == 0) {  // Only encaps when level = 0, we don't want paragraphs inside lists or stuff
                             $text .= '<p>';
-                            $this->paragraph_open = true;
-                        } elseif (in_array($tag, $this->paragraphless_tags)) {
+                            $this->paragraphOpen = true;
+                        } elseif (in_array($tag, $this->paragraphlessTags)) {
                             // We're in some tag that doesn't need to be <p> enclosed, like a heading or a table.
-                            if ($this->paragraph_required) {
-                                $paragraph_setting_modified = true;
-                                $this->paragraph_required = false;
+                            if ($this->paragraphRequired) {
+                                $paragraphSettingModified = true;
+                                $this->paragraphRequired = false;
                             }
-                            if ($this->paragraph_open && $this->level == 0) {
-
-                                $text .= "</p>\n\n";
-                                $this->paragraph_open = false;
+                            if ($this->paragraphOpen && $this->level == 0) {
+                                $this->paragraphOpen = false;
                             }
                         }
                     }
@@ -380,15 +384,14 @@ abstract class Parser {
                     }
 
                     // Reset paragraph_required.
-                    if ($this->paragraph_mode && $paragraph_setting_modified) {
-                        $this->paragraph_required = true;
+                    if ($this->paragraphMode && $paragraphSettingModified) {
+                        $this->paragraphRequired = true;
                     }
 
                     $blocks[] = $tagInstance;
                 } else {
 
-                    if ($this->paragraph_mode && $entry == self::BR_TAG) {
-
+                    if ($this->paragraphMode && $entry == self::BR_TAG) {
                         $shift = array_shift($this->parseArray);
                         if ($shift == self::BR_TAG) {
                             // Two brs, looks like a new paragraph!
@@ -397,24 +400,23 @@ abstract class Parser {
                             $secondshift = array_shift($this->parseArray);
                             while ($secondshift == self::BR_TAG) {
                                 $secondshift = array_shift($this->parseArray);
-                                $text .= "<br 2/>\n";
                             }
                             array_unshift($this->parseArray, $secondshift);
 
                             $shift = array_shift($this->parseArray);
 
-                            if ($this->paragraph_required && !in_array($this->getTag($shift), $this->paragraphless_tags)) {
-                                if ($this->paragraph_open) {
+                            if ($this->paragraphRequired && !in_array($this->getTag($shift), $this->paragraphlessTags)) {
+                                if ($this->paragraphOpen) {
                                     if ($this->level == 0) {
                                         // Close old one, and open new one
                                         $entry = "</p>\n\n<p>";
-                                        $this->paragraph_open = true;
+                                        $this->paragraphOpen = true;
                                     }
                                 } else {
                                     if ($this->level == 0) {
                                         /** @noinspection HtmlUnknownAttribute */
                                         $entry = "<p 1>";
-                                        $this->paragraph_open = true;
+                                        $this->paragraphOpen = true;
                                     }
                                 }
                             } else {
@@ -424,7 +426,7 @@ abstract class Parser {
                             // We have found 1 [br], so normally we'd put it back
                             // But if next thing is a paragraphless tag (say, table) or end of document,
                             // We can skip the [br], since there will be a </p> anyway.
-                        } elseif (in_array($this->getTag($shift), $this->paragraphless_tags)) {
+                        } elseif (in_array($this->getTag($shift), $this->paragraphlessTags)) {
 
                             $entry = null;
                         }
@@ -432,9 +434,8 @@ abstract class Parser {
                     }
 
                     // Add paragraphs if necessary
-                    if ($this->paragraph_mode && !$this->paragraph_open && $this->paragraph_required && $this->level == 0) {
-                        $text .= '<p>';
-                        $this->paragraph_open = true;
+                    if ($this->paragraphMode && !$this->paragraphOpen && $this->paragraphRequired && $this->level == 0) {
+                        $this->paragraphOpen = true;
                     }
 
                     $blocks[] = new BbString($entry);
@@ -442,8 +443,8 @@ abstract class Parser {
             }
         } // End of BIG while!
 
-        if ($this->paragraph_open) { // No need for a level check, should be zero anyway.
-            $this->paragraph_open = false;
+        if ($this->paragraphOpen) { // No need for a level check, should be zero anyway.
+            $this->paragraphOpen = false;
             $blocks[] = new BbString("</p>");
         }
 
@@ -454,10 +455,11 @@ abstract class Parser {
      * return name of a tag
      *
      * When supplied with a full tag ([b] or [img w=5 h=10]), return tag name
-     * @return string
      * @param string $fullTag The full tag to get the tagname from
+     * @return string
      */
-    private function getTag($fullTag) {
+    private function getTag($fullTag)
+    {
         if (substr($fullTag, 0, 1) == '[' && substr($fullTag, strlen($fullTag) - 1, 1) == ']') {
             return strtok($fullTag, '[ =]');
         } else {
@@ -469,12 +471,12 @@ abstract class Parser {
      * return arguments of a tag in array-form
      *
      * When supplied with a full tag ([h=5] or [img=blah.gif w=5 h=10]), return array with argument/value as key/value pairs
-     * @return array
      * @param string $fullTag The full tag to get the arguments from
+     * @return string[]
      */
-    private function getArguments($fullTag) {
-
-        $argument_array = Array();
+    private function getArguments(string $fullTag): array
+    {
+        $arguments = [];
         $tag = substr($fullTag, 1, strlen($fullTag) - 2);
         $argList = explode(' ', $tag);
         $i = 0;
@@ -490,27 +492,34 @@ abstract class Parser {
                 }
             }
             if (isset($value) && isset($key)) {
-                // FIXME: stupid javascript filtering detected
                 if (strstr(strtolower($value), 'javascript:')) {
                     $value = 'disabled';
                 }
-                //	if(strstr(strtolower($value), '(')){
-                //		$value = 'disabled';
-                //	}
 
-                $argument_array[$key] = $value;
+                $arguments[$key] = $value;
             }
         }
-        return $argument_array;
+        return $arguments;
     }
 
-    protected function createTagInstance(string $tag, Parser $parser, $env) {
+    protected function createTagInstance(string $tag, Parser $parser, $env): BbTag
+    {
         /** @var BbTag $tagInstance */
         $tagInstance = new $tag($parser, $env);
         $tagInstance->setParser($parser);
         $tagInstance->setEnv($env);
 
         return $tagInstance;
+    }
+
+    /**
+     * @param string $entry
+     * @return bool
+     */
+    private function isOpenTag(string $entry): bool
+    {
+        return substr($entry, 0, 1) == '[' && substr($entry, strlen($entry) - 1, 1) == ']'
+            && substr($entry, 1, 1) != '/';
     }
 
 }

@@ -1,12 +1,13 @@
 <?php
 
-namespace CsrDelft\bb;
+namespace CsrDelft\Lib\Bb;
 
 /**
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @since 27/03/2019
  */
-class BbEnv {
+class BbEnv
+{
     /**
      * @var string One of default, light, preview, plain
      */

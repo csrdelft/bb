@@ -1,23 +1,23 @@
 <?php
 
-namespace CsrDelft\bb\tag;
+namespace CsrDelft\Lib\Bb\Tag;
 
-use CsrDelft\bb\BbTag;
+use CsrDelft\Lib\Bb\BbTag;
 
 /**
- * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
- * @since 27/03/2019
- *
  * @param string optional $arguments['class'] Class attribute
  * @param boolean optional $arguments['clear'] CSS clear: both
  * @param string optional $arguments['float'] CSS float left or right
  * @param integer optional $arguments['w'] CSS width in pixels
  * @param integer optional $arguments['h'] CSS height in pixels
  *
+ * @since 27/03/2019
+ *
+ * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
  * @example [div class=special clear float=left w=20 h=50]...[/div]
  */
-class BbDiv extends BbTag {
-
+class BbDiv extends BbTag
+{
     /**
      * @var string
      */
@@ -31,11 +31,13 @@ class BbDiv extends BbTag {
      */
     private $title;
 
-    public static function getTagName() {
-		return 'div';
-	}
+    public static function getTagName(): string
+    {
+        return 'div';
+    }
 
-	public function parse($arguments = []) {
+    public function parse($arguments = []): void
+    {
         $this->readContent();
         $this->class = '';
         if (isset($arguments['class'])) {
@@ -67,7 +69,8 @@ class BbDiv extends BbTag {
         }
     }
 
-	public function render($arguments = []) {
-		return '<div' . $this->class . $this->style . $this->title . '>' . $this->getContent() . '</div>';
-	}
+    public function render($arguments = []): string
+    {
+        return '<div' . $this->class . $this->style . $this->title . '>' . $this->getContent() . '</div>';
+    }
 }

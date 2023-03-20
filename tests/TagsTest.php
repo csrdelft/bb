@@ -1,7 +1,7 @@
 <?php
 
-use CsrDelft\bb\DefaultParser;
-use CsrDelft\bb\test\VarDriverPlatformIndependent;
+use CsrDelft\Lib\Bb\DefaultParser;
+use CsrDelft\Lib\Bb\Test\VarDriverPlatformIndependent;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
