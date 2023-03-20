@@ -1,32 +1,33 @@
 <?php
 
-namespace CsrDelft\BbParser;
+namespace CsrDelft\Lib\Bb;
 
-use CsrDelft\BbParser\Tag\BbBold;
-use CsrDelft\BbParser\Tag\BbClear;
-use CsrDelft\BbParser\Tag\BbCode;
-use CsrDelft\BbParser\Tag\BbCommentaar;
-use CsrDelft\BbParser\Tag\BbDiv;
-use CsrDelft\BbParser\Tag\BbEmail;
-use CsrDelft\BbParser\Tag\BbHeading;
-use CsrDelft\BbParser\Tag\BbHorizontalRule;
-use CsrDelft\BbParser\Tag\BbItalic;
-use CsrDelft\BbParser\Tag\BbLeet;
-use CsrDelft\BbParser\Tag\BbLishort;
-use CsrDelft\BbParser\Tag\BbList;
-use CsrDelft\BbParser\Tag\BbListItem;
-use CsrDelft\BbParser\Tag\BbMe;
-use CsrDelft\BbParser\Tag\BbNewline;
-use CsrDelft\BbParser\Tag\BbNobold;
-use CsrDelft\BbParser\Tag\BbQuote;
-use CsrDelft\BbParser\Tag\BbStrikethrough;
-use CsrDelft\BbParser\Tag\BbSubscript;
-use CsrDelft\BbParser\Tag\BbSuperscript;
-use CsrDelft\BbParser\Tag\BbTable;
-use CsrDelft\BbParser\Tag\BbTableCell;
-use CsrDelft\BbParser\Tag\BbTableHeader;
-use CsrDelft\BbParser\Tag\BbTableRow;
-use CsrDelft\BbParser\Tag\BbUnderline;
+use CsrDelft\Lib\Bb\Tag\BbBold;
+use CsrDelft\Lib\Bb\Tag\BbClear;
+use CsrDelft\Lib\Bb\Tag\BbCode;
+use CsrDelft\Lib\Bb\Tag\BbCommentaar;
+use CsrDelft\Lib\Bb\Tag\BbDiv;
+use CsrDelft\Lib\Bb\Tag\BbEmail;
+use CsrDelft\Lib\Bb\Tag\BbHeading;
+use CsrDelft\Lib\Bb\Tag\BbHorizontalRule;
+use CsrDelft\Lib\Bb\Tag\BbItalic;
+use CsrDelft\Lib\Bb\Tag\BbLeet;
+use CsrDelft\Lib\Bb\Tag\BbLishort;
+use CsrDelft\Lib\Bb\Tag\BbList;
+use CsrDelft\Lib\Bb\Tag\BbListItem;
+use CsrDelft\Lib\Bb\Tag\BbMe;
+use CsrDelft\Lib\Bb\Tag\BbNewline;
+use CsrDelft\Lib\Bb\Tag\BbNobold;
+use CsrDelft\Lib\Bb\Tag\BbNode;
+use CsrDelft\Lib\Bb\Tag\BbQuote;
+use CsrDelft\Lib\Bb\Tag\BbStrikethrough;
+use CsrDelft\Lib\Bb\Tag\BbSubscript;
+use CsrDelft\Lib\Bb\Tag\BbSuperscript;
+use CsrDelft\Lib\Bb\Tag\BbTable;
+use CsrDelft\Lib\Bb\Tag\BbTableCell;
+use CsrDelft\Lib\Bb\Tag\BbTableHeader;
+use CsrDelft\Lib\Bb\Tag\BbTableRow;
+use CsrDelft\Lib\Bb\Tag\BbUnderline;
 
 /**
  * @author G.J.W. Oolbekkink <g.j.w.oolbekkink@gmail.com>
@@ -34,34 +35,37 @@ use CsrDelft\BbParser\Tag\BbUnderline;
  */
 final class DefaultParser extends Parser
 {
-    public function getTags()
+    /**
+     * @return BbNode[]
+     */
+    public function getTags(): array
     {
         return [
-            BbBold::class,
-            BbClear::class,
-            BbCode::class,
-            BbCommentaar::class,
-            BbDiv::class,
-            BbEmail::class,
-            BbHeading::class,
-            BbHorizontalRule::class,
-            BbItalic::class,
-            BbLeet::class,
-            BbLishort::class,
-            BbListItem::class,
-            BbMe::class,
-            BbNewline::class,
-            BbNobold::class,
-            BbQuote::class,
-            BbStrikethrough::class,
-            BbSubscript::class,
-            BbSuperscript::class,
-            BbTable::class,
-            BbTableCell::class,
-            BbTableHeader::class,
-            BbTableRow::class,
-            BbList::class,
-            BbUnderline::class,
+            new BbBold(),
+            new BbClear(),
+            new BbCode(),
+            new BbCommentaar(),
+            new BbDiv(),
+            new BbEmail(),
+            new BbHeading(),
+            new BbHorizontalRule(),
+            new BbItalic(),
+            new BbLeet(),
+            new BbLishort(),
+            new BbListItem(),
+            new BbMe(),
+            new BbNewline(),
+            new BbNobold(),
+            new BbQuote(),
+            new BbStrikethrough(),
+            new BbSubscript(),
+            new BbSuperscript(),
+            new BbTable(),
+            new BbTableCell(),
+            new BbTableHeader(),
+            new BbTableRow(),
+            new BbList(),
+            new BbUnderline(),
         ];
     }
 }

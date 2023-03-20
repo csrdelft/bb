@@ -1,8 +1,8 @@
 <?php
 
-namespace CsrDelft\BbParser\Tag;
+namespace CsrDelft\Lib\Bb\Tag;
 
-use CsrDelft\BbParser\BbTag;
+use CsrDelft\Lib\Bb\BbTag;
 
 /**
  * Horizontal line

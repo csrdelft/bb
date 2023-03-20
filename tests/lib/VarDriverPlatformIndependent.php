@@ -1,6 +1,6 @@
 <?php
 
-namespace CsrDelft\BbParser\Test;
+namespace CsrDelft\Lib\Bb\Test;
 
 use PHPUnit\Framework\Assert;
 use Spatie\Snapshots\Drivers\VarDriver;

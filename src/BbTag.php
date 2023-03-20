@@ -1,8 +1,8 @@
 <?php
 
-namespace CsrDelft\BbParser;
+namespace CsrDelft\Lib\Bb;
 
-use CsrDelft\BbParser\Tag\BbNode;
+use CsrDelft\Lib\Bb\Tag\BbNode;
 use Error;
 use stdClass;
 
@@ -169,12 +169,12 @@ abstract class BbTag implements BbNode
             throw new Error("Can not call readContent twice on the same tag");
         }
         $stoppers = $this->getStoppers();
-        $parse_bb_state_before = $this->parser->bb_mode;
-        $this->parser->bb_mode &= $parse_bb;
+        $parse_bb_state_before = $this->parser->bbMode;
+        $this->parser->bbMode &= $parse_bb;
 
         $result = $this->parser->parseArray($stoppers, $forbidden);
 
-        $this->parser->bb_mode = $parse_bb_state_before;
+        $this->parser->bbMode = $parse_bb_state_before;
         $this->children = $result;
     }
 

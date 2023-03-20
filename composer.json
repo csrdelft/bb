@@ -15,8 +15,8 @@
   },
   "autoload": {
     "psr-4": {
-      "CsrDelft\\BbParser\\": "src/",
-      "CsrDelft\\BbParser\\Test\\": "tests/lib/"
+      "CsrDelft\\Lib\\Bb\\": "src/",
+      "CsrDelft\\Lib\\Bb\\Test\\": "tests/lib/"
     }
   },
   "scripts": {

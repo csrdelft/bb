@@ -1,11 +1,11 @@
 <?php
 
 
-namespace CsrDelft\BbParser\Internal;
+namespace CsrDelft\Lib\Bb\Internal;
 
 
-use CsrDelft\BbParser\BbException;
-use CsrDelft\BbParser\Tag\BbNode;
+use CsrDelft\Lib\Bb\BbException;
+use CsrDelft\Lib\Bb\Tag\BbNode;
 
 class BbError implements BbNode
 {

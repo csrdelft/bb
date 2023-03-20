@@ -1,6 +1,6 @@
 <?php
 
-namespace CsrDelft\BbParser;
+namespace CsrDelft\Lib\Bb;
 
 use Exception;
 

@@ -1,9 +1,9 @@
 <?php
 
 
-use CsrDelft\BbParser\BbEnv;
-use CsrDelft\BbParser\DefaultParser;
-use CsrDelft\BbParser\Test\VarDriverPlatformIndependent;
+use CsrDelft\Lib\Bb\BbEnv;
+use CsrDelft\Lib\Bb\DefaultParser;
+use CsrDelft\Lib\Bb\Test\VarDriverPlatformIndependent;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
